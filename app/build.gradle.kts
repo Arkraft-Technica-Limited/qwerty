@@ -13,8 +13,8 @@ android {
         applicationId = "tech.arkraft.qwerty"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 1001
-        versionName = "1.0.0-QC"
+        versionCode = 1002
+        versionName = "1.1.0-QC"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

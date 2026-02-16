@@ -211,7 +211,7 @@ class MeshForegroundService : Service() {
                         updateNotification(force = false)
                     } else {
                         // If disabled or perms missing, ensure we are not in foreground and clear notif
-                        // Note: We don't stopForeground here immediately to avoid flickering or 
+                        // Note: We don't stopForeground here immediately to avoid flickering or
                         // violating the "foreground service" status if we were just started.
                         // We rely on the periodic check to clean up once the initial setup phase is over.
                         if (!hasNotificationPermission()) {
@@ -289,7 +289,7 @@ class MeshForegroundService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or (if (Build.VERSION.SDK_INT >= 23) PendingIntent.FLAG_IMMUTABLE else 0)
         )
 
-        // Action: Quit Bitchat
+        // Action: Quit Qwerty Chat
         val quitIntent = Intent(this, MeshForegroundService::class.java).apply { action = ACTION_QUIT }
         val quitPendingIntent = PendingIntent.getService(
             this, 1, quitIntent,

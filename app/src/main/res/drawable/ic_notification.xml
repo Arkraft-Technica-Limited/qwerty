@@ -1,22 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-    <!-- Simple chat bubble icon for notifications -->
+  <path
+      android:pathData="m0,-0h24v24h-24z"
+      android:strokeAlpha="0"
+      android:strokeWidth="0.0230207"
+      android:fillColor="#f9f9f9"
+      android:fillAlpha="0"/>
+  <group>
+    <clip-path
+        android:pathData="m1.699,2.416l10.348,0l0,19.066l-10.348,0z"/>
     <path
-        android:fillColor="@android:color/white"
-        android:pathData="M4,4h16c1.1,0 2,0.9 2,2v10c0,1.1 -0.9,2 -2,2H6l-4,4V6C2,4.9 2.9,4 4,4z" />
-    <!-- Terminal cursor -->
+        android:pathData="m7.131,3.269l9.823,0q1.36,0.244 2.149,0.862 1.846,1.546 1.846,4.068l0,7.762q0,2.701 -2.283,4.215 -0.971,0.553 -1.773,0.553l-9.762,0q-1.809,0 -3.266,-1.985 -0.813,-1.432 -0.813,-2.669l0,-8.12q0,-1.92 1.481,-3.515 1.323,-1.172 2.598,-1.172zM7.217,10.267l0,3.434q0,2.116 1.639,2.815 0.231,0.081 0.486,0.081l0.559,0L9.9,13.391q0.012,-0.081 0.061,-0.081l4.08,0q0.061,0.016 0.061,0.081l0,3.206l0.583,0q1.433,0 2.003,-2.034 0.085,-0.293 0.085,-0.781l0,-3.515q0,-1.904 -1.421,-2.701 -0.304,-0.146 -0.704,-0.146l-5.306,0q-1.469,0 -2.04,2.018 -0.085,0.407 -0.085,0.83z"
+        android:strokeWidth="0.089"
+        android:fillColor="#c83737"/>
+  </group>
+  <group>
+    <clip-path
+        android:pathData="m12.047,2.416l10.348,0l0,19.066l-10.348,0z"/>
     <path
-        android:fillColor="@android:color/black"
-        android:pathData="M8,9h2v2h-2z" />
-    <!-- Message lines -->
-    <path
-        android:fillColor="@android:color/black"
-        android:pathData="M12,9h6v1h-6z" />
-    <path
-        android:fillColor="@android:color/black"
-        android:pathData="M12,11h4v1h-4z" />
+        android:pathData="m7.131,3.269l9.823,0q1.36,0.244 2.149,0.862 1.846,1.546 1.846,4.068l0,7.762q0,2.701 -2.283,4.215 -0.971,0.553 -1.773,0.553l-9.762,0q-1.809,0 -3.266,-1.985 -0.813,-1.432 -0.813,-2.669l0,-8.12q0,-1.92 1.481,-3.515 1.323,-1.172 2.598,-1.172zM7.217,10.267l0,3.434q0,2.116 1.639,2.815 0.231,0.081 0.486,0.081l0.559,0L9.9,13.391q0.012,-0.081 0.061,-0.081l4.08,0q0.061,0.016 0.061,0.081l0,3.206l0.583,0q1.433,0 2.003,-2.034 0.085,-0.293 0.085,-0.781l0,-3.515q0,-1.904 -1.421,-2.701 -0.304,-0.146 -0.704,-0.146l-5.306,0q-1.469,0 -2.04,2.018 -0.085,0.407 -0.085,0.83z"
+        android:strokeWidth="0.089"
+        android:fillColor="#000000"/>
+  </group>
 </vector>
