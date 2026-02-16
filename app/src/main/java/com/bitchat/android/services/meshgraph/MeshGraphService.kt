@@ -1,4 +1,4 @@
-package com.bitchat.android.services.meshgraph
+package tech.arkraft.qwerty.services.meshgraph
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

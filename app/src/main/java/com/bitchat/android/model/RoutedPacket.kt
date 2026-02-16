@@ -1,6 +1,6 @@
-package com.bitchat.android.model
+package tech.arkraft.qwerty.model
 
-import com.bitchat.android.protocol.BitchatPacket
+import tech.arkraft.qwerty.protocol.BitchatPacket
 
 /**
  * Represents a routed packet with additional metadata

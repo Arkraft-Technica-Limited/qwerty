@@ -1,4 +1,4 @@
-package com.bitchat.android.nostr
+package tech.arkraft.qwerty.nostr
 
 import android.util.Log
 import java.util.concurrent.ConcurrentHashMap
@@ -22,7 +22,7 @@ class NostrEventDeduplicator(
 ) {
     companion object {
         private const val TAG = "NostrDeduplicator"
-        private const val DEFAULT_CAPACITY = com.bitchat.android.util.AppConstants.Nostr.DEFAULT_DEDUP_CAPACITY
+        private const val DEFAULT_CAPACITY = tech.arkraft.qwerty.util.AppConstants.Nostr.DEFAULT_DEDUP_CAPACITY
         
         @Volatile
         private var INSTANCE: NostrEventDeduplicator? = null

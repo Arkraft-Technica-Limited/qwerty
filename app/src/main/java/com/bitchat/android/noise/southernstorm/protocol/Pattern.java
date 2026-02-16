@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package com.bitchat.android.noise.southernstorm.protocol;
+package tech.arkraft.qwerty.noise.southernstorm.protocol;
 
 /**
  * Information about all supported handshake patterns.

@@ -1,4 +1,4 @@
-package com.bitchat.android.service
+package tech.arkraft.qwerty.service
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,9 +13,9 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.bitchat.android.MainActivity
-import com.bitchat.android.R
-import com.bitchat.android.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.MainActivity
+import tech.arkraft.qwerty.R
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,11 +29,11 @@ class MeshForegroundService : Service() {
         private const val CHANNEL_ID = "bitchat_mesh_service"
         private const val NOTIFICATION_ID = 10001
 
-        const val ACTION_START = "com.bitchat.android.service.START"
-        const val ACTION_STOP = "com.bitchat.android.service.STOP"
-        const val ACTION_QUIT = "com.bitchat.android.service.QUIT"
-        const val ACTION_UPDATE_NOTIFICATION = "com.bitchat.android.service.UPDATE_NOTIFICATION"
-        const val ACTION_NOTIFICATION_PERMISSION_GRANTED = "com.bitchat.android.action.NOTIFICATION_PERMISSION_GRANTED"
+        const val ACTION_START = "tech.arkraft.qwerty.service.START"
+        const val ACTION_STOP = "tech.arkraft.qwerty.service.STOP"
+        const val ACTION_QUIT = "tech.arkraft.qwerty.service.QUIT"
+        const val ACTION_UPDATE_NOTIFICATION = "tech.arkraft.qwerty.service.UPDATE_NOTIFICATION"
+        const val ACTION_NOTIFICATION_PERMISSION_GRANTED = "tech.arkraft.qwerty.action.NOTIFICATION_PERMISSION_GRANTED"
 
         fun start(context: Context) {
             val intent = Intent(context, MeshForegroundService::class.java).apply { action = ACTION_START }
@@ -177,7 +177,7 @@ class MeshForegroundService : Service() {
             }
             ACTION_UPDATE_NOTIFICATION -> {
                 // If we became eligible and are not in foreground yet, promote once
-                if (MeshServicePreferences.isBackgroundEnabled(true) && hasAllRequiredPermissions() && !isInForeground) {
+                if (MeshServicePreferences.isBackgroundEnabled(true) && !isInForeground) {
                     val n = buildNotification(meshService?.getActivePeerCount() ?: 0)
                     startForegroundCompat(n)
                     isInForeground = true
@@ -191,8 +191,9 @@ class MeshForegroundService : Service() {
         // Ensure mesh is running (only after permissions are granted)
         ensureMeshStarted()
 
-        // Promote exactly once when eligible, otherwise stay background (or stop)
-        if (MeshServicePreferences.isBackgroundEnabled(true) && hasAllRequiredPermissions() && !isInForeground) {
+        // Promote exactly once to avoid ForegroundServiceDidNotStartInTimeException.
+        // Even if some permissions are missing, we MUST call startForeground if we were started as such.
+        if (MeshServicePreferences.isBackgroundEnabled(true) && !isInForeground) {
             val notification = buildNotification(meshService?.getActivePeerCount() ?: 0)
             startForegroundCompat(notification)
             isInForeground = true
@@ -210,11 +211,12 @@ class MeshForegroundService : Service() {
                         updateNotification(force = false)
                     } else {
                         // If disabled or perms missing, ensure we are not in foreground and clear notif
-                        if (isInForeground) {
-                            try { stopForeground(false) } catch (_: Exception) { }
-                            isInForeground = false
+                        // Note: We don't stopForeground here immediately to avoid flickering or 
+                        // violating the "foreground service" status if we were just started.
+                        // We rely on the periodic check to clean up once the initial setup phase is over.
+                        if (!hasNotificationPermission()) {
+                             notificationManager.cancel(NOTIFICATION_ID)
                         }
-                        notificationManager.cancel(NOTIFICATION_ID)
                     }
                     delay(5000)
                 }

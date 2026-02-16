@@ -1,6 +1,6 @@
-package com.bitchat.android.sync
+package tech.arkraft.qwerty.sync
 
-import com.bitchat.android.protocol.BitchatPacket
+import tech.arkraft.qwerty.protocol.BitchatPacket
 import java.security.MessageDigest
 
 /**

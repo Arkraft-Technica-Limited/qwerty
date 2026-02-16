@@ -1,10 +1,10 @@
 
-package com.bitchat.android.mesh
+package tech.arkraft.qwerty.mesh
 
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.util.toHexString
+import tech.arkraft.qwerty.model.RoutedPacket
+import tech.arkraft.qwerty.protocol.BitchatPacket
+import tech.arkraft.qwerty.protocol.MessageType
+import tech.arkraft.qwerty.util.toHexString
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before

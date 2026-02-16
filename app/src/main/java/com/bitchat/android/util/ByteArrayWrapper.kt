@@ -1,4 +1,4 @@
-package com.bitchat.android.util
+package tech.arkraft.qwerty.util
 
 import java.util.Arrays
 

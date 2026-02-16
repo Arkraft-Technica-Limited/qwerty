@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import android.graphics.Bitmap
 import android.os.Handler
@@ -70,10 +70,10 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.set
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.R
-import com.bitchat.android.core.ui.component.button.CloseButton
-import com.bitchat.android.core.ui.component.sheet.BitchatBottomSheet
-import com.bitchat.android.services.VerificationService
+import tech.arkraft.qwerty.R
+import tech.arkraft.qwerty.core.ui.component.button.CloseButton
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatBottomSheet
+import tech.arkraft.qwerty.services.VerificationService
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState

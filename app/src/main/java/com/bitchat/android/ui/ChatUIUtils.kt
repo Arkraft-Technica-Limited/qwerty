@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
 import androidx.compose.material3.ColorScheme
-import com.bitchat.android.ui.theme.BASE_FONT_SIZE
+import tech.arkraft.qwerty.ui.theme.BASE_FONT_SIZE
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -371,7 +371,7 @@ private fun appendIOSFormattedContent(
 
     // Add standalone geohash matches (e.g., "#9q") that are not part of another word
     // We use MessageSpecialParser to find exact ranges; then merge with existing ranges avoiding overlaps
-    val geoMatches = MessageSpecialParser.findStandaloneGeohashes(content)
+    val geoMatches = tech.arkraft.qwerty.ui.MessageSpecialParser.findStandaloneGeohashes(content)
     for (gm in geoMatches) {
         val range = gm.start until gm.endExclusive
         if (!overlapsMention(range)) {
@@ -380,7 +380,7 @@ private fun appendIOSFormattedContent(
     }
 
     // Add URL matches (http/https/www/bare domains). Exclude overlaps with mentions.
-    val urlMatches = MessageSpecialParser.findUrls(content)
+    val urlMatches = tech.arkraft.qwerty.ui.MessageSpecialParser.findUrls(content)
     for (um in urlMatches) {
         val range = um.start until um.endExclusive
         if (!overlapsMention(range)) {

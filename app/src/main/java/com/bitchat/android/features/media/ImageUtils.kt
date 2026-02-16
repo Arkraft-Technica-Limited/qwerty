@@ -1,4 +1,4 @@
-package com.bitchat.android.features.media
+package tech.arkraft.qwerty.features.media
 
 import android.content.Context
 import android.graphics.Bitmap

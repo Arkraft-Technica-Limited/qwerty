@@ -1,9 +1,9 @@
-package com.bitchat.android.model
+package tech.arkraft.qwerty.model
 
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.bitchat.android.features.file.FileUtils
+import tech.arkraft.qwerty.features.file.FileUtils
 import java.io.File
 
 /**

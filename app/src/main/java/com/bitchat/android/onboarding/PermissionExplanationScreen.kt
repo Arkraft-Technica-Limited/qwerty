@@ -1,4 +1,4 @@
-package com.bitchat.android.onboarding
+package tech.arkraft.qwerty.onboarding
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import tech.arkraft.qwerty.R
 
 /**
  * Permission explanation screen shown before requesting permissions

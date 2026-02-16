@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import android.app.Application
 import android.util.Log
@@ -8,16 +8,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.viewModelScope
-import com.bitchat.android.nostr.GeohashMessageHandler
-import com.bitchat.android.nostr.GeohashRepository
-import com.bitchat.android.nostr.NostrDirectMessageHandler
-import com.bitchat.android.nostr.NostrIdentityBridge
-import com.bitchat.android.nostr.NostrProtocol
-import com.bitchat.android.nostr.NostrRelayManager
-import com.bitchat.android.nostr.NostrSubscriptionManager
-import com.bitchat.android.nostr.PoWPreferenceManager
-import com.bitchat.android.nostr.GeohashAliasRegistry
-import com.bitchat.android.nostr.GeohashConversationRegistry
+import tech.arkraft.qwerty.nostr.GeohashMessageHandler
+import tech.arkraft.qwerty.nostr.GeohashRepository
+import tech.arkraft.qwerty.nostr.NostrDirectMessageHandler
+import tech.arkraft.qwerty.nostr.NostrIdentityBridge
+import tech.arkraft.qwerty.nostr.NostrProtocol
+import tech.arkraft.qwerty.nostr.NostrRelayManager
+import tech.arkraft.qwerty.nostr.NostrSubscriptionManager
+import tech.arkraft.qwerty.nostr.PoWPreferenceManager
+import tech.arkraft.qwerty.nostr.GeohashAliasRegistry
+import tech.arkraft.qwerty.nostr.GeohashConversationRegistry
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
@@ -63,12 +63,12 @@ class GeohashViewModel(
     private var currentDmSubId: String? = null
     private var geoTimer: Job? = null
     private var globalPresenceJob: Job? = null
-    private var locationChannelManager: com.bitchat.android.geohash.LocationChannelManager? = null
+    private var locationChannelManager: tech.arkraft.qwerty.geohash.LocationChannelManager? = null
     private val activeSamplingGeohashes = mutableSetOf<String>()
 
     val geohashPeople: StateFlow<List<GeoPerson>> = state.geohashPeople
     val geohashParticipantCounts: StateFlow<Map<String, Int>> = state.geohashParticipantCounts
-    val selectedLocationChannel: StateFlow<com.bitchat.android.geohash.ChannelID?> = state.selectedLocationChannel
+    val selectedLocationChannel: StateFlow<tech.arkraft.qwerty.geohash.ChannelID?> = state.selectedLocationChannel
 
     fun initialize() {
         subscriptionManager.connect()
@@ -87,7 +87,7 @@ class GeohashViewModel(
             )
         }
         try {
-            locationChannelManager = com.bitchat.android.geohash.LocationChannelManager.getInstance(getApplication())
+            locationChannelManager = tech.arkraft.qwerty.geohash.LocationChannelManager.getInstance(getApplication())
             viewModelScope.launch {
                 locationChannelManager?.selectedChannel?.collect { channel ->
                     state.setSelectedLocationChannel(channel)
@@ -105,7 +105,7 @@ class GeohashViewModel(
             
         } catch (e: Exception) {
             Log.e(TAG, "Failed to initialize location channel state: ${e.message}")
-            state.setSelectedLocationChannel(com.bitchat.android.geohash.ChannelID.Mesh)
+            state.setSelectedLocationChannel(tech.arkraft.qwerty.geohash.ChannelID.Mesh)
             state.setIsTeleported(false)
         }
     }
@@ -181,12 +181,12 @@ class GeohashViewModel(
         }
     }
 
-    fun sendGeohashMessage(content: String, channel: com.bitchat.android.geohash.GeohashChannel, myPeerID: String, nickname: String?) {
+    fun sendGeohashMessage(content: String, channel: tech.arkraft.qwerty.geohash.GeohashChannel, myPeerID: String, nickname: String?) {
         viewModelScope.launch {
             try {
                 val tempId = "temp_${System.currentTimeMillis()}_${kotlin.random.Random.nextInt(1000)}"
                 val pow = PoWPreferenceManager.getCurrentSettings()
-                val localMsg = com.bitchat.android.model.BitchatMessage(
+                val localMsg = tech.arkraft.qwerty.model.BitchatMessage(
                     id = tempId,
                     sender = nickname ?: myPeerID,
                     content = content,
@@ -199,7 +199,7 @@ class GeohashViewModel(
                 messageManager.addChannelMessage("geo:${channel.geohash}", localMsg)
                 val startedMining = pow.enabled && pow.difficulty > 0
                 if (startedMining) {
-                    com.bitchat.android.ui.PoWMiningTracker.startMiningMessage(tempId)
+                    tech.arkraft.qwerty.ui.PoWMiningTracker.startMiningMessage(tempId)
                 }
                 try {
                     val identity = NostrIdentityBridge.deriveIdentity(forGeohash = channel.geohash, context = getApplication())
@@ -210,7 +210,7 @@ class GeohashViewModel(
                 } finally {
                     // Ensure we stop the per-message mining animation regardless of success/failure
                     if (startedMining) {
-                        com.bitchat.android.ui.PoWMiningTracker.stopMiningMessage(tempId)
+                        tech.arkraft.qwerty.ui.PoWMiningTracker.stopMiningMessage(tempId)
                     }
                 }
             } catch (e: Exception) {
@@ -268,7 +268,7 @@ class GeohashViewModel(
         repo.putNostrKeyMapping(convKey, pubkeyHex)
         // Record the conversation's geohash using the currently selected location channel (if any)
         val current = state.selectedLocationChannel.value
-        val gh = (current as? com.bitchat.android.geohash.ChannelID.Location)?.channel?.geohash
+        val gh = (current as? tech.arkraft.qwerty.geohash.ChannelID.Location)?.channel?.geohash
         if (!gh.isNullOrEmpty()) {
             repo.setConversationGeohash(convKey, gh)
             GeohashConversationRegistry.set(convKey, gh)
@@ -286,7 +286,7 @@ class GeohashViewModel(
             // Refresh people list and counts to remove blocked entry immediately
             repo.refreshGeohashPeople()
             repo.updateReactiveParticipantCounts()
-            val sysMsg = com.bitchat.android.model.BitchatMessage(
+            val sysMsg = tech.arkraft.qwerty.model.BitchatMessage(
                 sender = "system",
                 content = "blocked $targetNickname in geohash channels",
                 timestamp = Date(),
@@ -294,7 +294,7 @@ class GeohashViewModel(
             )
             messageManager.addMessage(sysMsg)
         } else {
-            val sysMsg = com.bitchat.android.model.BitchatMessage(
+            val sysMsg = tech.arkraft.qwerty.model.BitchatMessage(
                 sender = "system",
                 content = "user '$targetNickname' not found in current geohash",
                 timestamp = Date(),
@@ -304,7 +304,7 @@ class GeohashViewModel(
         }
     }
 
-    fun selectLocationChannel(channel: com.bitchat.android.geohash.ChannelID) {
+    fun selectLocationChannel(channel: tech.arkraft.qwerty.geohash.ChannelID) {
         locationChannelManager?.select(channel) ?: run { Log.w(TAG, "Cannot select location channel - not initialized") }
     }
 
@@ -316,20 +316,20 @@ class GeohashViewModel(
         return colorForPeerSeed(seed, isDark).copy()
     }
 
-    private fun switchLocationChannel(channel: com.bitchat.android.geohash.ChannelID?) {
+    private fun switchLocationChannel(channel: tech.arkraft.qwerty.geohash.ChannelID?) {
         geoTimer?.cancel(); geoTimer = null
         currentGeohashSubId?.let { subscriptionManager.unsubscribe(it); currentGeohashSubId = null }
         currentDmSubId?.let { subscriptionManager.unsubscribe(it); currentDmSubId = null }
 
         when (channel) {
-            is com.bitchat.android.geohash.ChannelID.Mesh -> {
+            is tech.arkraft.qwerty.geohash.ChannelID.Mesh -> {
                 Log.d(TAG, "📡 Switched to mesh channel")
                 repo.setCurrentGeohash(null)
                 notificationManager.setCurrentGeohash(null)
                 notificationManager.clearMeshMentionNotifications()
                 repo.refreshGeohashPeople()
             }
-            is com.bitchat.android.geohash.ChannelID.Location -> {
+            is tech.arkraft.qwerty.geohash.ChannelID.Location -> {
                 Log.d(TAG, "📍 Switching to geohash channel: ${channel.channel.geohash}")
                 repo.setCurrentGeohash(channel.channel.geohash)
                 notificationManager.setCurrentGeohash(channel.channel.geohash)

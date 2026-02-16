@@ -1,6 +1,6 @@
 package com.bitchat
 
-import com.bitchat.android.mesh.PeerManager
+import tech.arkraft.qwerty.mesh.PeerManager
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 

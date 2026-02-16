@@ -1,10 +1,10 @@
-package com.bitchat.android.model
+package tech.arkraft.qwerty.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 /**
- * Noise encrypted payload types and handling - 100% compatible with iOS SimplifiedBluetoothService
+ * Noise encrypted payload types and handling
  * 
  * This handles all encrypted content that goes through noiseEncrypted packets:
  * - Private messages with TLV encoding
@@ -15,7 +15,6 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * Types of payloads embedded within noiseEncrypted messages
- * Matches iOS NoisePayloadType exactly
  */
 enum class NoisePayloadType(val value: UByte) {
     PRIVATE_MESSAGE(0x01u),     // Private chat message with TLV encoding
@@ -35,7 +34,6 @@ enum class NoisePayloadType(val value: UByte) {
 
 /**
  * Helper class for creating and parsing Noise payloads
- * Matches iOS NoisePayload helper exactly
  */
 @Parcelize
 data class NoisePayload(
@@ -97,7 +95,7 @@ data class NoisePayload(
 }
 
 /**
- * Private message packet with TLV encoding - matches iOS PrivateMessagePacket exactly
+ * Private message packet with TLV encoding
  */
 @Parcelize
 data class PrivateMessagePacket(
@@ -106,7 +104,7 @@ data class PrivateMessagePacket(
 ) : Parcelable {
 
     /**
-     * TLV types matching iOS implementation exactly
+     * TLV
      */
     private enum class TLVType(val value: UByte) {
         MESSAGE_ID(0x00u),
@@ -120,7 +118,7 @@ data class PrivateMessagePacket(
     }
 
     /**
-     * Encode to TLV binary data - exactly like iOS
+     * Encode to TLV binary data
      * Format: [type][length][value] for each field
      */
     fun encode(): ByteArray? {
@@ -149,7 +147,7 @@ data class PrivateMessagePacket(
     
     companion object {
         /**
-         * Decode from TLV binary data - exactly like iOS
+         * Decode from TLV binary data
          */
         fun decode(data: ByteArray): PrivateMessagePacket? {
             var offset = 0

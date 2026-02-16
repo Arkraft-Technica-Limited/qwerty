@@ -1,4 +1,4 @@
-package com.bitchat.android.crypto
+package tech.arkraft.qwerty.crypto
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,7 +6,7 @@ import android.util.Base64
 import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.bitchat.android.noise.NoiseEncryptionService
+import tech.arkraft.qwerty.noise.NoiseEncryptionService
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair
 import org.bouncycastle.crypto.generators.Ed25519KeyPairGenerator
 import org.bouncycastle.crypto.params.Ed25519KeyGenerationParameters
@@ -237,7 +237,7 @@ open class EncryptionService(private val context: Context) {
     /**
      * Get session state for a peer (for UI state display)
      */
-    fun getSessionState(peerID: String): com.bitchat.android.noise.NoiseSession.NoiseSessionState {
+    fun getSessionState(peerID: String): tech.arkraft.qwerty.noise.NoiseSession.NoiseSessionState {
         return noiseService.getSessionState(peerID)
     }
     

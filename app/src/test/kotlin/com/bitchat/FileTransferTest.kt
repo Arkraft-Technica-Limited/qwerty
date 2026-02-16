@@ -1,8 +1,8 @@
 package com.bitchat
 
-import com.bitchat.android.model.BitchatFilePacket
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.BitchatMessageType
+import tech.arkraft.qwerty.model.BitchatFilePacket
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.model.BitchatMessageType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -146,7 +146,7 @@ class FileTransferTest {
             id = "test1",
             sender = "alice",
             senderPeerID = "12345678",
-            content = "/data/user/0/com.bitchat.android/files/images/photo.jpg",
+            content = "/data/user/0/tech.arkraft.qwerty/files/images/photo.jpg",
             type = BitchatMessageType.Image,
             timestamp = Date(System.currentTimeMillis()),
             isPrivate = false
@@ -156,7 +156,7 @@ class FileTransferTest {
             id = "test2",
             sender = "bob",
             senderPeerID = "87654321",
-            content = "/data/user/0/com.bitchat.android/files/audio/voice.amr",
+            content = "/data/user/0/tech.arkraft.qwerty/files/audio/voice.amr",
             type = BitchatMessageType.Audio,
             timestamp = Date(System.currentTimeMillis()),
             isPrivate = false
@@ -166,7 +166,7 @@ class FileTransferTest {
             id = "test3",
             sender = "charlie",
             senderPeerID = "11223344",
-            content = "/data/user/0/com.bitchat.android/files/documents/document.pdf",
+            content = "/data/user/0/tech.arkraft.qwerty/files/documents/document.pdf",
             type = BitchatMessageType.File,
             timestamp = Date(System.currentTimeMillis()),
             isPrivate = false
@@ -175,7 +175,7 @@ class FileTransferTest {
         // When: Converting to display format (this would be done in MessageMutable)
         var result = imageMessage.content
         result = result.replace(
-            "/data/user/0/com.bitchat.android/files/images/photo.jpg",
+            "/data/user/0/tech.arkraft.qwerty/files/images/photo.jpg",
             "[image] photo.jpg"
         )
 

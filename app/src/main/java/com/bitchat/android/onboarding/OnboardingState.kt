@@ -1,4 +1,4 @@
-package com.bitchat.android.onboarding
+package tech.arkraft.qwerty.onboarding
 
 enum class OnboardingState {
     CHECKING,

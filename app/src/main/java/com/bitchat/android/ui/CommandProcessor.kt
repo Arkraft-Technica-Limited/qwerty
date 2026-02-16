@@ -1,7 +1,7 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.model.BitchatMessage
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.model.BitchatMessage
 import java.util.Date
 
 /**
@@ -133,7 +133,7 @@ class CommandProcessor(
         // Channel-aware who command (matches iOS behavior)
         val (peerList, contextDescription) = if (viewModel != null) {
             when (val selectedChannel = viewModel.selectedLocationChannel.value) {
-                is com.bitchat.android.geohash.ChannelID.Mesh,
+                is tech.arkraft.qwerty.geohash.ChannelID.Mesh,
                 null -> {
                     // Mesh channel: show Bluetooth-connected peers
                     val connectedPeers = state.getConnectedPeersValue()
@@ -143,7 +143,7 @@ class CommandProcessor(
                     Pair(peerList, "online users")
                 }
                 
-                is com.bitchat.android.geohash.ChannelID.Location -> {
+                is tech.arkraft.qwerty.geohash.ChannelID.Location -> {
                     // Location channel: show geohash participants
                     val geohashPeople = viewModel.geohashPeople.value ?: emptyList()
                     val currentNickname = state.getNicknameValue()
@@ -294,7 +294,7 @@ class CommandProcessor(
 
             // If we're in a geohash location channel, don't add a local echo here.
             // GeohashViewModel.sendGeohashMessage() will add the local echo with proper metadata.
-            val isInLocationChannel = state.selectedLocationChannel.value is com.bitchat.android.geohash.ChannelID.Location
+            val isInLocationChannel = state.selectedLocationChannel.value is tech.arkraft.qwerty.geohash.ChannelID.Location
 
             // Send as regular message
             if (state.getSelectedPrivateChatPeerValue() != null) {
@@ -445,13 +445,13 @@ class CommandProcessor(
         // Get peer candidates based on active channel (matches iOS logic exactly)
         val peerCandidates: List<String> = if (viewModel != null) {
             when (val selectedChannel = viewModel.selectedLocationChannel.value) {
-                is com.bitchat.android.geohash.ChannelID.Mesh,
+                is tech.arkraft.qwerty.geohash.ChannelID.Mesh,
                 null -> {
                     // Mesh channel: use Bluetooth mesh peer nicknames
                     meshService.getPeerNicknames().values.filter { it != meshService.getPeerNicknames()[meshService.myPeerID] }
                 }
                 
-                is com.bitchat.android.geohash.ChannelID.Location -> {
+                is tech.arkraft.qwerty.geohash.ChannelID.Location -> {
                     // Location channel: use geohash participants with collision-resistant suffixes
                     val geohashPeople = viewModel.geohashPeople.value ?: emptyList()
                     val currentNickname = state.getNicknameValue()

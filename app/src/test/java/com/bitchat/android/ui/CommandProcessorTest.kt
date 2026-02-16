@@ -1,9 +1,9 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.model.BitchatMessage
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.model.BitchatMessage
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope

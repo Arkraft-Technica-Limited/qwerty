@@ -1,8 +1,8 @@
-package com.bitchat.android.crypto
+package tech.arkraft.qwerty.crypto
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import com.bitchat.android.noise.NoiseEncryptionService
+import tech.arkraft.qwerty.noise.NoiseEncryptionService
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

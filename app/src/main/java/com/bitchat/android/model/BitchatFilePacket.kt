@@ -1,4 +1,4 @@
-package com.bitchat.android.model
+package tech.arkraft.qwerty.model
 
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

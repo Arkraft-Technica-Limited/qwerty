@@ -1,4 +1,4 @@
-//package com.bitchat.android.services
+//package tech.arkraft.qwerty.services
 //
 //import android.content.Context
 //import android.content.SharedPreferences

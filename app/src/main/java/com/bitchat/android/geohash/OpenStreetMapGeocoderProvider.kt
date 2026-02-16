@@ -1,8 +1,8 @@
-package com.bitchat.android.geohash
+package tech.arkraft.qwerty.geohash
 
 import android.location.Address
 import android.util.Log
-import com.bitchat.android.net.OkHttpProvider
+import tech.arkraft.qwerty.net.OkHttpProvider
 import com.google.gson.Gson
 import okhttp3.Request
 import java.util.Locale

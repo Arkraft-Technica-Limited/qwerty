@@ -1,4 +1,4 @@
-package com.bitchat.android.nostr
+package tech.arkraft.qwerty.nostr
 
 /**
  * Bech32 encoding/decoding implementation for Nostr

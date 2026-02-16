@@ -1,58 +1,50 @@
-package com.bitchat.android
+package tech.arkraft.qwerty
 
 import android.app.Application
-import com.bitchat.android.nostr.RelayDirectory
-import com.bitchat.android.ui.theme.ThemePreferenceManager
-import com.bitchat.android.net.ArtiTorManager
+import android.util.Log
+import tech.arkraft.qwerty.net.ArtiTorManager
+import tech.arkraft.qwerty.nostr.RelayDirectory
+import tech.arkraft.qwerty.ui.theme.ThemePreferenceManager
 
-/**
- * Main application class for bitchat Android
- */
 class BitchatApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        // Initialize Tor first so any early network goes over Tor
-        try {
-            val torProvider = ArtiTorManager.getInstance()
-            torProvider.init(this)
-        } catch (_: Exception){}
-
-        // Initialize relay directory (loads assets/nostr_relays.csv)
-        RelayDirectory.initialize(this)
-
-        // Initialize LocationNotesManager dependencies early so sheet subscriptions can start immediately
-        try { com.bitchat.android.nostr.LocationNotesInitializer.initialize(this) } catch (_: Exception) { }
-
-        // Initialize favorites persistence early so MessageRouter/NostrTransport can use it on startup
-        try {
-            com.bitchat.android.favorites.FavoritesPersistenceService.initialize(this)
-        } catch (_: Exception) { }
-
-        // Warm up Nostr identity to ensure npub is available for favorite notifications
-        try {
-            com.bitchat.android.nostr.NostrIdentityBridge.getCurrentNostrIdentity(this)
-        } catch (_: Exception) { }
-
-        // Initialize theme preference
+        
+        // Initialize logging
+        Log.i("BitchatApplication", "Application starting...")
+        
+        // Initialize configuration and preferences managers
+        try { tech.arkraft.qwerty.ui.debug.DebugPreferenceManager.init(this) } catch (_: Exception) { }
+        try { tech.arkraft.qwerty.service.MeshServicePreferences.init(this) } catch (_: Exception) { }
         ThemePreferenceManager.init(this)
-
-        // Initialize debug preference manager (persists debug toggles)
-        try { com.bitchat.android.ui.debug.DebugPreferenceManager.init(this) } catch (_: Exception) { }
-
-        // Initialize Geohash Registries for persistence
+        
+        // Initialize background mesh services
+        try { tech.arkraft.qwerty.service.MeshForegroundService.start(this) } catch (_: Exception) { }
+        
+        // Initialize registry components for geohash and favorites
         try {
-            com.bitchat.android.nostr.GeohashAliasRegistry.initialize(this)
-            com.bitchat.android.nostr.GeohashConversationRegistry.initialize(this)
-        } catch (_: Exception) { }
+            tech.arkraft.qwerty.nostr.GeohashConversationRegistry.initialize(this)
+            tech.arkraft.qwerty.nostr.GeohashAliasRegistry.initialize(this)
+            tech.arkraft.qwerty.favorites.FavoritesPersistenceService.initialize(this)
+            tech.arkraft.qwerty.nostr.LocationNotesInitializer.initialize(this)
+        } catch (e: Exception) {
+            Log.e("BitchatApplication", "Failed to initialize registries", e)
+        }
 
-        // Initialize mesh service preferences
-        try { com.bitchat.android.service.MeshServicePreferences.init(this) } catch (_: Exception) { }
-
-        // Proactively start the foreground service to keep mesh alive
-        try { com.bitchat.android.service.MeshForegroundService.start(this) } catch (_: Exception) { }
-
-        // TorManager already initialized above
+        // Setup networking (Arti/Tor if available)
+        try {
+            ArtiTorManager.getInstance().initialize(this)
+            RelayDirectory.initialize(this)
+        } catch (e: Exception) {
+            Log.e("BitchatApplication", "Failed to initialize network stack", e)
+        }
+        
+        // Ensure identity is prepared
+        try {
+            tech.arkraft.qwerty.nostr.NostrIdentityBridge.getCurrentNostrIdentity(this)
+        } catch (e: Exception) {
+            Log.e("BitchatApplication", "Failed to initialize identity", e)
+        }
     }
 }

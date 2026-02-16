@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package com.bitchat.android.noise.southernstorm.protocol;
+package tech.arkraft.qwerty.noise.southernstorm.protocol;
 
 /**
  * Additional API for DH objects that need special handling for

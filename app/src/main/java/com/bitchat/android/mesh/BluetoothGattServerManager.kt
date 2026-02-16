@@ -1,4 +1,4 @@
-package com.bitchat.android.mesh
+package tech.arkraft.qwerty.mesh
 
 import android.bluetooth.*
 import android.bluetooth.le.AdvertiseCallback
@@ -8,8 +8,8 @@ import android.bluetooth.le.BluetoothLeAdvertiser
 import android.content.Context
 import android.os.ParcelUuid
 import android.util.Log
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.util.AppConstants
+import tech.arkraft.qwerty.protocol.BitchatPacket
+import tech.arkraft.qwerty.util.AppConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,7 +63,7 @@ class BluetoothGattServerManager(
     fun start(): Boolean {
         // Respect debug setting
         try {
-            if (!com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value) {
+            if (!tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value) {
                 Log.i(TAG, "Server start skipped: GATT Server disabled in debug settings")
                 return false
             }
@@ -322,7 +322,7 @@ class BluetoothGattServerManager(
     @Suppress("DEPRECATION")
     private fun startAdvertising() {
         // Respect debug setting
-        val enabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
+        val enabled = try { tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
 
         // Guard conditions – never throw here to avoid crashing the app from a background coroutine
         if (!permissionManager.hasBluetoothPermissions()) {
@@ -412,7 +412,7 @@ class BluetoothGattServerManager(
      */
     fun restartAdvertising() {
         // Respect debug setting
-        val enabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
+        val enabled = try { tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
         if (!isActive || !enabled) {
             stopAdvertising()
             return

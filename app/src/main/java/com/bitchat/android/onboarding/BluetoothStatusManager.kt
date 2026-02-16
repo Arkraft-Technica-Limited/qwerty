@@ -1,4 +1,4 @@
-package com.bitchat.android.onboarding
+package tech.arkraft.qwerty.onboarding
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager

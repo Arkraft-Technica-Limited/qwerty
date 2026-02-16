@@ -1,10 +1,10 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import android.util.Log
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.model.BitchatFilePacket
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.BitchatMessageType
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.model.BitchatFilePacket
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.model.BitchatMessageType
 import java.util.Date
 import java.security.MessageDigest
 
@@ -23,7 +23,7 @@ class MediaSendingManager(
         get() = getMeshService()
     companion object {
         private const val TAG = "MediaSendingManager"
-        private const val MAX_FILE_SIZE = com.bitchat.android.util.AppConstants.Media.MAX_FILE_SIZE_BYTES // 50MB limit
+        private const val MAX_FILE_SIZE = tech.arkraft.qwerty.util.AppConstants.Media.MAX_FILE_SIZE_BYTES // 50MB limit
     }
 
     // Track in-flight transfer progress: transferId -> messageId and reverse
@@ -122,7 +122,7 @@ class MediaSendingManager(
 
             // Use the real MIME type based on extension; fallback to octet-stream
             val mimeType = try { 
-                com.bitchat.android.features.file.FileUtils.getMimeTypeFromExtension(file.name) 
+                tech.arkraft.qwerty.features.file.FileUtils.getMimeTypeFromExtension(file.name) 
             } catch (_: Exception) { 
                 "application/octet-stream" 
             }
@@ -208,7 +208,7 @@ class MediaSendingManager(
         // Seed progress so delivery icons render for media
         messageManager.updateMessageDeliveryStatus(
             msg.id,
-            com.bitchat.android.model.DeliveryStatus.PartiallyDelivered(0, 100)
+            tech.arkraft.qwerty.model.DeliveryStatus.PartiallyDelivered(0, 100)
         )
         
         Log.d(TAG, "📤 Calling meshService.sendFilePrivate to $toPeerID")
@@ -262,7 +262,7 @@ class MediaSendingManager(
         // Seed progress so animations start immediately
         messageManager.updateMessageDeliveryStatus(
             message.id,
-            com.bitchat.android.model.DeliveryStatus.PartiallyDelivered(0, 100)
+            tech.arkraft.qwerty.model.DeliveryStatus.PartiallyDelivered(0, 100)
         )
         
         Log.d(TAG, "📤 Calling meshService.sendFileBroadcast")
@@ -318,13 +318,13 @@ class MediaSendingManager(
     /**
      * Handle transfer progress events
      */
-    fun handleTransferProgressEvent(evt: com.bitchat.android.mesh.TransferProgressEvent) {
+    fun handleTransferProgressEvent(evt: tech.arkraft.qwerty.mesh.TransferProgressEvent) {
         val msgId = synchronized(transferMessageMap) { transferMessageMap[evt.transferId] }
         if (msgId != null) {
             if (evt.completed) {
                 messageManager.updateMessageDeliveryStatus(
                     msgId,
-                    com.bitchat.android.model.DeliveryStatus.Delivered(to = "mesh", at = java.util.Date())
+                    tech.arkraft.qwerty.model.DeliveryStatus.Delivered(to = "mesh", at = java.util.Date())
                 )
                 synchronized(transferMessageMap) {
                     val msgIdRemoved = transferMessageMap.remove(evt.transferId)
@@ -333,7 +333,7 @@ class MediaSendingManager(
             } else {
                 messageManager.updateMessageDeliveryStatus(
                     msgId,
-                    com.bitchat.android.model.DeliveryStatus.PartiallyDelivered(evt.sent, evt.total)
+                    tech.arkraft.qwerty.model.DeliveryStatus.PartiallyDelivered(evt.sent, evt.total)
                 )
             }
         }

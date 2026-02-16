@@ -1,11 +1,11 @@
-package com.bitchat.android.mesh
+package tech.arkraft.qwerty.mesh
 
 import android.util.Log
-import com.bitchat.android.crypto.EncryptionService
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.util.toHexString
+import tech.arkraft.qwerty.crypto.EncryptionService
+import tech.arkraft.qwerty.protocol.BitchatPacket
+import tech.arkraft.qwerty.protocol.MessageType
+import tech.arkraft.qwerty.model.RoutedPacket
+import tech.arkraft.qwerty.util.toHexString
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.mutableSetOf
@@ -19,10 +19,10 @@ class SecurityManager(private val encryptionService: EncryptionService, private 
     
     companion object {
         private const val TAG = "SecurityManager"
-        private const val MESSAGE_TIMEOUT = com.bitchat.android.util.AppConstants.Security.MESSAGE_TIMEOUT_MS // 5 minutes (same as iOS)
-        private const val CLEANUP_INTERVAL = com.bitchat.android.util.AppConstants.Security.CLEANUP_INTERVAL_MS // 5 minutes
-        private const val MAX_PROCESSED_MESSAGES = com.bitchat.android.util.AppConstants.Security.MAX_PROCESSED_MESSAGES
-        private const val MAX_PROCESSED_KEY_EXCHANGES = com.bitchat.android.util.AppConstants.Security.MAX_PROCESSED_KEY_EXCHANGES
+        private const val MESSAGE_TIMEOUT = tech.arkraft.qwerty.util.AppConstants.Security.MESSAGE_TIMEOUT_MS // 5 minutes (same as iOS)
+        private const val CLEANUP_INTERVAL = tech.arkraft.qwerty.util.AppConstants.Security.CLEANUP_INTERVAL_MS // 5 minutes
+        private const val MAX_PROCESSED_MESSAGES = tech.arkraft.qwerty.util.AppConstants.Security.MAX_PROCESSED_MESSAGES
+        private const val MAX_PROCESSED_KEY_EXCHANGES = tech.arkraft.qwerty.util.AppConstants.Security.MAX_PROCESSED_KEY_EXCHANGES
     }
     
     // Security tracking
@@ -62,7 +62,7 @@ class SecurityManager(private val encryptionService: EncryptionService, private 
             // This ensures we catch the "first announce" on a new connection for binding,
             // while still dropping looped/relayed duplicates.
             val isFreshAnnounce = messageType == MessageType.ANNOUNCE &&
-                    packet.ttl >= com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+                    packet.ttl >= tech.arkraft.qwerty.util.AppConstants.MESSAGE_TTL_HOPS
 
             if (!isFreshAnnounce) {
                 Log.d(TAG, "Dropping duplicate packet: $messageID")
@@ -257,7 +257,7 @@ class SecurityManager(private val encryptionService: EncryptionService, private 
             if (MessageType.fromValue(packet.type) == MessageType.ANNOUNCE) {
                 // Special Case: ANNOUNCE packets carry their own signing key
                 try {
-                    val announcement = com.bitchat.android.model.IdentityAnnouncement.decode(packet.payload)
+                    val announcement = tech.arkraft.qwerty.model.IdentityAnnouncement.decode(packet.payload)
                     signingPublicKey = announcement?.signingPublicKey
                 } catch (e: Exception) {
                     Log.w(TAG, "Failed to decode announcement for key extraction: ${e.message}")

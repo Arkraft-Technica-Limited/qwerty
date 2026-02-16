@@ -20,15 +20,15 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package com.bitchat.android.noise.southernstorm.protocol;
+package tech.arkraft.qwerty.noise.southernstorm.protocol;
 
 import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.ShortBufferException;
 
-import com.bitchat.android.noise.southernstorm.crypto.GHASH;
-import com.bitchat.android.noise.southernstorm.crypto.RijndaelAES;
+import tech.arkraft.qwerty.noise.southernstorm.crypto.GHASH;
+import tech.arkraft.qwerty.noise.southernstorm.crypto.RijndaelAES;
 
 /**
  * Fallback implementation of "AESGCM" on platforms where

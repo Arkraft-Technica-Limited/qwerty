@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import android.content.Context
 import android.os.Build

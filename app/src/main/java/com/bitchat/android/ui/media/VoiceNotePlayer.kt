@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package tech.arkraft.qwerty.ui.media
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
@@ -99,7 +99,7 @@ fun VoiceNotePlayer(
             )
         }
         val progressBarColor = progressColor ?: MaterialTheme.colorScheme.primary
-        com.bitchat.android.ui.media.WaveformPreview(
+        tech.arkraft.qwerty.ui.media.WaveformPreview(
             modifier = Modifier
                 .height(24.dp)
                 .weight(1f)

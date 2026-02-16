@@ -1,6 +1,6 @@
-package com.bitchat.android.model
+package tech.arkraft.qwerty.model
 
-import com.bitchat.android.protocol.MessageType
+import tech.arkraft.qwerty.protocol.MessageType
 
 /**
  * FragmentPayload - 100% iOS-compatible fragment payload structure

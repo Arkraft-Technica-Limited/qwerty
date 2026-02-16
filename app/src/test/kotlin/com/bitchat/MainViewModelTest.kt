@@ -1,9 +1,9 @@
 package com.bitchat
 
-import com.bitchat.android.MainViewModel
-import com.bitchat.android.onboarding.BatteryOptimizationStatus
-import com.bitchat.android.onboarding.LocationStatus
-import com.bitchat.android.onboarding.OnboardingState
+import tech.arkraft.qwerty.MainViewModel
+import tech.arkraft.qwerty.onboarding.BatteryOptimizationStatus
+import tech.arkraft.qwerty.onboarding.LocationStatus
+import tech.arkraft.qwerty.onboarding.OnboardingState
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

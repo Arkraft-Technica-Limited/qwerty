@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -11,12 +11,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.core.ui.component.sheet.BitchatBottomSheet
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetTopBar
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetTitle
-import com.bitchat.android.geohash.GeohashChannelLevel
-import com.bitchat.android.geohash.LocationChannelManager
-import com.bitchat.android.R
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatBottomSheet
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetTopBar
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetTitle
+import tech.arkraft.qwerty.geohash.GeohashChannelLevel
+import tech.arkraft.qwerty.geohash.LocationChannelManager
+import tech.arkraft.qwerty.R
 
 /**
  * Presenter component for LocationNotesSheet

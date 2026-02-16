@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -30,18 +30,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
 import androidx.core.view.updateLayoutParams
-import com.bitchat.android.geohash.Geohash
-import com.bitchat.android.geohash.LocationChannelManager
-import com.bitchat.android.ui.theme.BASE_FONT_SIZE
+import tech.arkraft.qwerty.R
+import tech.arkraft.qwerty.geohash.Geohash
+import tech.arkraft.qwerty.geohash.LocationChannelManager
+import tech.arkraft.qwerty.ui.theme.BASE_FONT_SIZE
 
 @OptIn(ExperimentalMaterial3Api::class)
 class GeohashPickerActivity : OrientationAwareActivity() {

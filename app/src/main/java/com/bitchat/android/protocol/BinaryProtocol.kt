@@ -1,4 +1,4 @@
-package com.bitchat.android.protocol
+package tech.arkraft.qwerty.protocol
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -99,7 +99,7 @@ data class BitchatPacket(
             payload = payload,
             signature = null, // Remove signature for signing
             route = route,
-            ttl = com.bitchat.android.util.AppConstants.SYNC_TTL_HOPS // Use fixed TTL=0 for signing to ensure relay compatibility
+            ttl = tech.arkraft.qwerty.util.AppConstants.SYNC_TTL_HOPS // Use fixed TTL=0 for signing to ensure relay compatibility
         )
         return BinaryProtocol.encode(unsignedPacket)
     }

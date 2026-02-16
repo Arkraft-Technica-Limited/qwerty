@@ -1,4 +1,4 @@
-package com.bitchat.android.onboarding
+package tech.arkraft.qwerty.onboarding
 
 import android.Manifest
 import android.content.Context
@@ -7,7 +7,7 @@ import android.os.Build
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.content.ContextCompat
-import com.bitchat.android.R
+import tech.arkraft.qwerty.R
 
 /**
  * Centralized permission management for bitchat app

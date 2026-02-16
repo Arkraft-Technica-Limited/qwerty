@@ -1,8 +1,8 @@
-package com.bitchat.android.nostr
+package tech.arkraft.qwerty.nostr
 
 import android.content.Context
 import android.util.Log
-import com.bitchat.android.identity.SecureIdentityStateManager
+import tech.arkraft.qwerty.identity.SecureIdentityStateManager
 import java.security.MessageDigest
 import java.security.SecureRandom
 

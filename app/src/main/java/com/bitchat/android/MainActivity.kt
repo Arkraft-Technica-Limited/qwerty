@@ -1,4 +1,4 @@
-package com.bitchat.android
+package tech.arkraft.qwerty
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,30 +18,30 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.Lifecycle
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.onboarding.BluetoothCheckScreen
-import com.bitchat.android.onboarding.BluetoothStatus
-import com.bitchat.android.onboarding.BluetoothStatusManager
-import com.bitchat.android.onboarding.BatteryOptimizationManager
-import com.bitchat.android.onboarding.BatteryOptimizationPreferenceManager
-import com.bitchat.android.onboarding.BatteryOptimizationScreen
-import com.bitchat.android.onboarding.BatteryOptimizationStatus
-import com.bitchat.android.onboarding.BackgroundLocationPermissionScreen
-import com.bitchat.android.onboarding.InitializationErrorScreen
-import com.bitchat.android.onboarding.InitializingScreen
-import com.bitchat.android.onboarding.LocationCheckScreen
-import com.bitchat.android.onboarding.LocationStatus
-import com.bitchat.android.onboarding.LocationStatusManager
-import com.bitchat.android.onboarding.OnboardingCoordinator
-import com.bitchat.android.onboarding.OnboardingState
-import com.bitchat.android.onboarding.PermissionExplanationScreen
-import com.bitchat.android.onboarding.PermissionManager
-import com.bitchat.android.ui.ChatScreen
-import com.bitchat.android.ui.ChatViewModel
-import com.bitchat.android.ui.OrientationAwareActivity
-import com.bitchat.android.ui.theme.BitchatTheme
-import com.bitchat.android.nostr.PoWPreferenceManager
-import com.bitchat.android.services.VerificationService
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.onboarding.BluetoothCheckScreen
+import tech.arkraft.qwerty.onboarding.BluetoothStatus
+import tech.arkraft.qwerty.onboarding.BluetoothStatusManager
+import tech.arkraft.qwerty.onboarding.BatteryOptimizationManager
+import tech.arkraft.qwerty.onboarding.BatteryOptimizationPreferenceManager
+import tech.arkraft.qwerty.onboarding.BatteryOptimizationScreen
+import tech.arkraft.qwerty.onboarding.BatteryOptimizationStatus
+import tech.arkraft.qwerty.onboarding.BackgroundLocationPermissionScreen
+import tech.arkraft.qwerty.onboarding.InitializationErrorScreen
+import tech.arkraft.qwerty.onboarding.InitializingScreen
+import tech.arkraft.qwerty.onboarding.LocationCheckScreen
+import tech.arkraft.qwerty.onboarding.LocationStatus
+import tech.arkraft.qwerty.onboarding.LocationStatusManager
+import tech.arkraft.qwerty.onboarding.OnboardingCoordinator
+import tech.arkraft.qwerty.onboarding.OnboardingState
+import tech.arkraft.qwerty.onboarding.PermissionExplanationScreen
+import tech.arkraft.qwerty.onboarding.PermissionManager
+import tech.arkraft.qwerty.ui.ChatScreen
+import tech.arkraft.qwerty.ui.ChatViewModel
+import tech.arkraft.qwerty.ui.OrientationAwareActivity
+import tech.arkraft.qwerty.ui.theme.BitchatTheme
+import tech.arkraft.qwerty.nostr.PoWPreferenceManager
+import tech.arkraft.qwerty.services.VerificationService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -67,7 +67,7 @@ class MainActivity : OrientationAwareActivity() {
     
     private val forceFinishReceiver = object : android.content.BroadcastReceiver() {
         override fun onReceive(context: android.content.Context, intent: android.content.Intent) {
-            if (intent.action == com.bitchat.android.util.AppConstants.UI.ACTION_FORCE_FINISH) {
+            if (intent.action == tech.arkraft.qwerty.util.AppConstants.UI.ACTION_FORCE_FINISH) {
                 android.util.Log.i("MainActivity", "Received force finish broadcast, closing UI")
                 finishAffinity()
             }
@@ -78,12 +78,12 @@ class MainActivity : OrientationAwareActivity() {
         super.onCreate(savedInstanceState)
         
         // Register receiver for force finish signal from shutdown coordinator
-        val filter = android.content.IntentFilter(com.bitchat.android.util.AppConstants.UI.ACTION_FORCE_FINISH)
+        val filter = android.content.IntentFilter(tech.arkraft.qwerty.util.AppConstants.UI.ACTION_FORCE_FINISH)
         if (android.os.Build.VERSION.SDK_INT >= 33) {
             registerReceiver(
                 forceFinishReceiver,
                 filter,
-                com.bitchat.android.util.AppConstants.UI.PERMISSION_FORCE_FINISH,
+                tech.arkraft.qwerty.util.AppConstants.UI.PERMISSION_FORCE_FINISH,
                 null,
                 android.content.Context.RECEIVER_NOT_EXPORTED
             )
@@ -92,7 +92,7 @@ class MainActivity : OrientationAwareActivity() {
             registerReceiver(
                 forceFinishReceiver,
                 filter,
-                com.bitchat.android.util.AppConstants.UI.PERMISSION_FORCE_FINISH,
+                tech.arkraft.qwerty.util.AppConstants.UI.PERMISSION_FORCE_FINISH,
                 null
             )
         }
@@ -104,7 +104,7 @@ class MainActivity : OrientationAwareActivity() {
             return
         }
 
-        com.bitchat.android.service.AppShutdownCoordinator.cancelPendingShutdown()
+        tech.arkraft.qwerty.service.AppShutdownCoordinator.cancelPendingShutdown()
         
         // Enable edge-to-edge display for modern Android look
         enableEdgeToEdge()
@@ -112,8 +112,8 @@ class MainActivity : OrientationAwareActivity() {
         // Initialize permission management
         permissionManager = PermissionManager(this)
         // Ensure foreground service is running and get mesh instance from holder
-        try { com.bitchat.android.service.MeshForegroundService.start(applicationContext) } catch (_: Exception) { }
-        meshService = com.bitchat.android.service.MeshServiceHolder.getOrCreate(applicationContext)
+        try { tech.arkraft.qwerty.service.MeshForegroundService.start(applicationContext) } catch (_: Exception) { }
+        meshService = tech.arkraft.qwerty.service.MeshServiceHolder.getOrCreate(applicationContext)
         bluetoothStatusManager = BluetoothStatusManager(
             activity = this,
             context = this,
@@ -403,7 +403,7 @@ class MainActivity : OrientationAwareActivity() {
                 Log.d("MainActivity", "Existing user with required permissions")
                 if (permissionManager.needsBackgroundLocationPermission() &&
                     !permissionManager.isBackgroundLocationGranted() &&
-                    !com.bitchat.android.onboarding.BackgroundLocationPreferenceManager.isSkipped(this@MainActivity)
+                    !tech.arkraft.qwerty.onboarding.BackgroundLocationPreferenceManager.isSkipped(this@MainActivity)
                 ) {
                     mainViewModel.updateOnboardingState(OnboardingState.BACKGROUND_LOCATION_EXPLANATION)
                 } else {
@@ -664,7 +664,7 @@ class MainActivity : OrientationAwareActivity() {
                 Log.d("MainActivity", "PoW preferences initialized")
                 
                 // Initialize Location Notes Manager (extracted to separate file)
-                com.bitchat.android.nostr.LocationNotesInitializer.initialize(this@MainActivity)
+                tech.arkraft.qwerty.nostr.LocationNotesInitializer.initialize(this@MainActivity)
                 
                 // Ensure all permissions are still granted (user might have revoked in settings)
                 if (!permissionManager.areAllPermissionsGranted()) {
@@ -706,7 +706,7 @@ class MainActivity : OrientationAwareActivity() {
             return
         }
 
-        com.bitchat.android.service.AppShutdownCoordinator.cancelPendingShutdown()
+        tech.arkraft.qwerty.service.AppShutdownCoordinator.cancelPendingShutdown()
         
         // Handle notification intents when app is already running
         if (mainViewModel.onboardingState.value == OnboardingState.COMPLETE) {
@@ -757,19 +757,19 @@ class MainActivity : OrientationAwareActivity() {
      */
     private fun handleNotificationIntent(intent: Intent) {
         val shouldOpenPrivateChat = intent.getBooleanExtra(
-            com.bitchat.android.ui.NotificationManager.EXTRA_OPEN_PRIVATE_CHAT, 
+            tech.arkraft.qwerty.ui.NotificationManager.EXTRA_OPEN_PRIVATE_CHAT, 
             false
         )
         
         val shouldOpenGeohashChat = intent.getBooleanExtra(
-            com.bitchat.android.ui.NotificationManager.EXTRA_OPEN_GEOHASH_CHAT,
+            tech.arkraft.qwerty.ui.NotificationManager.EXTRA_OPEN_GEOHASH_CHAT,
             false
         )
         
         when {
             shouldOpenPrivateChat -> {
-                val peerID = intent.getStringExtra(com.bitchat.android.ui.NotificationManager.EXTRA_PEER_ID)
-                val senderNickname = intent.getStringExtra(com.bitchat.android.ui.NotificationManager.EXTRA_SENDER_NICKNAME)
+                val peerID = intent.getStringExtra(tech.arkraft.qwerty.ui.NotificationManager.EXTRA_PEER_ID)
+                val senderNickname = intent.getStringExtra(tech.arkraft.qwerty.ui.NotificationManager.EXTRA_SENDER_NICKNAME)
                 
                 if (peerID != null) {
                     Log.d("MainActivity", "Opening private chat with $senderNickname (peerID: $peerID) from notification")
@@ -784,22 +784,22 @@ class MainActivity : OrientationAwareActivity() {
             }
             
             shouldOpenGeohashChat -> {
-                val geohash = intent.getStringExtra(com.bitchat.android.ui.NotificationManager.EXTRA_GEOHASH)
+                val geohash = intent.getStringExtra(tech.arkraft.qwerty.ui.NotificationManager.EXTRA_GEOHASH)
                 
                 if (geohash != null) {
                     Log.d("MainActivity", "Opening geohash chat #$geohash from notification")
                     
                     // Switch to the geohash channel - create appropriate geohash channel level
                     val level = when (geohash.length) {
-                        7 -> com.bitchat.android.geohash.GeohashChannelLevel.BLOCK
-                        6 -> com.bitchat.android.geohash.GeohashChannelLevel.NEIGHBORHOOD
-                        5 -> com.bitchat.android.geohash.GeohashChannelLevel.CITY
-                        4 -> com.bitchat.android.geohash.GeohashChannelLevel.PROVINCE
-                        2 -> com.bitchat.android.geohash.GeohashChannelLevel.REGION
-                        else -> com.bitchat.android.geohash.GeohashChannelLevel.CITY // Default fallback
+                        7 -> tech.arkraft.qwerty.geohash.GeohashChannelLevel.BLOCK
+                        6 -> tech.arkraft.qwerty.geohash.GeohashChannelLevel.NEIGHBORHOOD
+                        5 -> tech.arkraft.qwerty.geohash.GeohashChannelLevel.CITY
+                        4 -> tech.arkraft.qwerty.geohash.GeohashChannelLevel.PROVINCE
+                        2 -> tech.arkraft.qwerty.geohash.GeohashChannelLevel.REGION
+                        else -> tech.arkraft.qwerty.geohash.GeohashChannelLevel.CITY // Default fallback
                     }
-                    val geohashChannel = com.bitchat.android.geohash.GeohashChannel(level, geohash)
-                    val channelId = com.bitchat.android.geohash.ChannelID.Location(geohashChannel)
+                    val geohashChannel = tech.arkraft.qwerty.geohash.GeohashChannel(level, geohash)
+                    val channelId = tech.arkraft.qwerty.geohash.ChannelID.Location(geohashChannel)
                     chatViewModel.selectLocationChannel(channelId)
                     
                     // Update current geohash state for notifications

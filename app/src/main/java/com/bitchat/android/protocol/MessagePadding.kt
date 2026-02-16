@@ -1,4 +1,4 @@
-package com.bitchat.android.protocol
+package tech.arkraft.qwerty.protocol
 
 import java.security.SecureRandom
 

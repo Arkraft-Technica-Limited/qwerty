@@ -1,4 +1,4 @@
-package com.bitchat.android.identity
+package tech.arkraft.qwerty.identity
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,7 @@ import androidx.security.crypto.MasterKey
 import java.security.MessageDigest
 import android.util.Base64
 import android.util.Log
-import com.bitchat.android.util.hexEncodedString
+import tech.arkraft.qwerty.util.hexEncodedString
 import androidx.core.content.edit
 
 /**

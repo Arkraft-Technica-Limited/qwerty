@@ -1,16 +1,16 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import android.content.Context
-import com.bitchat.android.R
-import com.bitchat.android.favorites.FavoritesPersistenceService
-import com.bitchat.android.identity.SecureIdentityStateManager
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.noise.NoiseSession
-import com.bitchat.android.nostr.GeohashAliasRegistry
-import com.bitchat.android.services.VerificationService
-import com.bitchat.android.util.dataFromHexString
-import com.bitchat.android.util.hexEncodedString
+import tech.arkraft.qwerty.R
+import tech.arkraft.qwerty.favorites.FavoritesPersistenceService
+import tech.arkraft.qwerty.identity.SecureIdentityStateManager
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.noise.NoiseSession
+import tech.arkraft.qwerty.nostr.GeohashAliasRegistry
+import tech.arkraft.qwerty.services.VerificationService
+import tech.arkraft.qwerty.util.dataFromHexString
+import tech.arkraft.qwerty.util.hexEncodedString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

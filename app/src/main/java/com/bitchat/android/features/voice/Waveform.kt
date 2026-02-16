@@ -1,4 +1,4 @@
-package com.bitchat.android.features.voice
+package tech.arkraft.qwerty.features.voice
 
 import android.media.MediaCodec
 import android.media.MediaExtractor

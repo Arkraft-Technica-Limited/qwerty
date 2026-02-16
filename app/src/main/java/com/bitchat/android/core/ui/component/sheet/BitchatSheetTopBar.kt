@@ -1,4 +1,4 @@
-package com.bitchat.android.core.ui.component.sheet
+package tech.arkraft.qwerty.core.ui.component.sheet
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bitchat.android.core.ui.component.button.CloseButton
+import tech.arkraft.qwerty.core.ui.component.button.CloseButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

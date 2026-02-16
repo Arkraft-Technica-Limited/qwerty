@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.debug
+package tech.arkraft.qwerty.ui.debug
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -16,11 +16,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bitchat.android.services.meshgraph.MeshGraphService
+import tech.arkraft.qwerty.services.meshgraph.MeshGraphService
 import kotlin.math.*
 import kotlin.random.Random
 import androidx.compose.material3.MaterialTheme
-import com.bitchat.android.ui.debug.DebugSettingsManager.MeshVisualEvent
+import tech.arkraft.qwerty.ui.debug.DebugSettingsManager.MeshVisualEvent
 
 // Physics constants
 private const val REPULSION_FORCE = 100000f

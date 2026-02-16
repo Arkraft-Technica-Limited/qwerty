@@ -1,4 +1,4 @@
-package com.bitchat.android.nostr
+package tech.arkraft.qwerty.nostr
 
 import com.google.gson.*
 import com.google.gson.annotations.SerializedName

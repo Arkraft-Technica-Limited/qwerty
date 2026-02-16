@@ -1,4 +1,4 @@
-package com.bitchat.android.net
+package tech.arkraft.qwerty.net
 
 import okhttp3.OkHttpClient
 import java.net.InetSocketAddress

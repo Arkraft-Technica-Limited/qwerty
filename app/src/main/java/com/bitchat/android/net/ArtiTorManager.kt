@@ -1,8 +1,8 @@
-package com.bitchat.android.net
+package tech.arkraft.qwerty.net
 
 import android.app.Application
 import android.util.Log
-import com.bitchat.android.util.AppConstants
+import tech.arkraft.qwerty.util.AppConstants
 import info.guardianproject.arti.ArtiLogListener
 import info.guardianproject.arti.ArtiProxy
 import kotlinx.coroutines.CoroutineScope
@@ -67,6 +67,10 @@ class ArtiTorManager private constructor() {
                 INSTANCE ?: ArtiTorManager().also { INSTANCE = it }
             }
         }
+
+        fun init(application: Application) {
+            getInstance().initialize(application)
+        }
     }
 
     private val appScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
@@ -119,7 +123,7 @@ class ArtiTorManager private constructor() {
                 socksAddr != null && s.state == TorState.RUNNING
     }
 
-    fun init(application: Application) {
+    fun initialize(application: Application) {
         if (initialized) return
         synchronized(this) {
             if (initialized) return
@@ -317,7 +321,7 @@ class ArtiTorManager private constructor() {
         } catch (_: Throwable) {
         }
         try {
-            com.bitchat.android.nostr.NostrRelayManager.shared.resetAllConnections()
+            tech.arkraft.qwerty.nostr.NostrRelayManager.shared.resetAllConnections()
         } catch (_: Throwable) {
         }
     }

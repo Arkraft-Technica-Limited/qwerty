@@ -1,6 +1,6 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
-import com.bitchat.android.R
+import tech.arkraft.qwerty.R
 import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -25,15 +25,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.core.ui.component.button.CloseButton
-import com.bitchat.android.core.ui.component.sheet.BitchatBottomSheet
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetCenterTopBar
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetTitle
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetTopBar
-import com.bitchat.android.geohash.ChannelID
-import com.bitchat.android.ui.theme.BASE_FONT_SIZE
-import com.bitchat.android.nostr.GeohashAliasRegistry
-import com.bitchat.android.nostr.GeohashConversationRegistry
+import tech.arkraft.qwerty.core.ui.component.button.CloseButton
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatBottomSheet
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetCenterTopBar
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetTitle
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetTopBar
+import tech.arkraft.qwerty.geohash.ChannelID
+import tech.arkraft.qwerty.ui.theme.BASE_FONT_SIZE
+import tech.arkraft.qwerty.nostr.GeohashAliasRegistry
+import tech.arkraft.qwerty.nostr.GeohashConversationRegistry
 
 
 /**
@@ -365,7 +365,7 @@ fun PeopleSection(
         }
 
         // Offline favorites (exclude ones mapped to connected)
-        val offlineFavorites = com.bitchat.android.favorites.FavoritesPersistenceService.shared.getOurFavorites()
+        val offlineFavorites = tech.arkraft.qwerty.favorites.FavoritesPersistenceService.shared.getOurFavorites()
         offlineFavorites.forEach { fav ->
             val favPeerID = fav.peerNoisePublicKey.joinToString("") { b -> "%02x".format(b) }
             val isMappedToConnected = noiseHexByPeerID.values.any { it.equals(favPeerID, ignoreCase = true) }
@@ -442,10 +442,10 @@ fun PeopleSection(
 
             // Resolve potential Nostr conversation key for this favorite (for unread detection)
             val nostrConvKey: String? = try {
-                val npubOrHex = com.bitchat.android.favorites.FavoritesPersistenceService.shared.findNostrPubkey(fav.peerNoisePublicKey)
+                val npubOrHex = tech.arkraft.qwerty.favorites.FavoritesPersistenceService.shared.findNostrPubkey(fav.peerNoisePublicKey)
                 if (npubOrHex != null) {
                     val hex = if (npubOrHex.startsWith("npub")) {
-                        val (hrp, data) = com.bitchat.android.nostr.Bech32.decode(npubOrHex)
+                        val (hrp, data) = tech.arkraft.qwerty.nostr.Bech32.decode(npubOrHex)
                         if (hrp == "npub") data.joinToString("") { "%02x".format(it) } else null
                     } else {
                         npubOrHex.lowercase()

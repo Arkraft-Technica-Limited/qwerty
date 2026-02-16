@@ -1,13 +1,11 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import java.security.MessageDigest
+import tech.arkraft.qwerty.model.BitchatMessage
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import com.bitchat.android.model.BitchatMessage
-import java.util.*
 
 /**
  * Handles channel management including creation, joining, leaving, and encryption

@@ -1,4 +1,4 @@
-package com.bitchat.android.sync
+package tech.arkraft.qwerty.sync
 
 import java.security.MessageDigest
 import kotlin.math.ceil

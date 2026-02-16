@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.debug
+package tech.arkraft.qwerty.ui.debug
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,18 +26,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.rotate
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.services.meshgraph.MeshGraphService
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.services.meshgraph.MeshGraphService
 import kotlinx.coroutines.launch
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import tech.arkraft.qwerty.R
 import androidx.compose.ui.platform.LocalContext
-import com.bitchat.android.core.ui.component.sheet.BitchatBottomSheet
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetTopBar
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetTitle
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatBottomSheet
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetTopBar
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetTitle
 
 @Composable
 fun MeshTopologySection() {
@@ -138,7 +138,7 @@ fun DebugSettingsSheet(
                 val directMap = peers.associateWith { pid -> meshService.getPeerInfo(pid)?.isDirectConnection == true }
                 val devices = entries.map { (address, isClient, rssi) ->
                     val pid = mapping[address]
-                    com.bitchat.android.ui.debug.ConnectedDevice(
+                    tech.arkraft.qwerty.ui.debug.ConnectedDevice(
                         deviceAddress = address,
                         peerID = pid,
                         nickname = pid?.let { nicknames[it] },
@@ -549,8 +549,8 @@ fun DebugSettingsSheet(
                         Slider(value = gcsMaxBytes.toFloat(), onValueChange = { manager.setGcsMaxBytes(it.toInt()) }, valueRange = 128f..1024f, steps = 0)
                         Text(stringResource(R.string.debug_target_fpr_fmt, gcsFpr), fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = colorScheme.onSurface.copy(alpha = 0.7f))
                         Slider(value = gcsFpr.toFloat(), onValueChange = { manager.setGcsFprPercent(it.toDouble()) }, valueRange = 0.1f..5.0f, steps = 49)
-                        val p = remember(gcsFpr) { com.bitchat.android.sync.GCSFilter.deriveP(gcsFpr / 100.0) }
-                        val nmax = remember(gcsFpr, gcsMaxBytes) { com.bitchat.android.sync.GCSFilter.estimateMaxElementsForSize(gcsMaxBytes, p) }
+                        val p = remember(gcsFpr) { tech.arkraft.qwerty.sync.GCSFilter.deriveP(gcsFpr / 100.0) }
+                        val nmax = remember(gcsFpr, gcsMaxBytes) { tech.arkraft.qwerty.sync.GCSFilter.estimateMaxElementsForSize(gcsMaxBytes, p) }
                         Text(stringResource(R.string.debug_derived_p_fmt, p.toString(), nmax.toString()), fontFamily = FontFamily.Monospace, fontSize = 11.sp, color = colorScheme.onSurface.copy(alpha = 0.7f))
                     }
                 }

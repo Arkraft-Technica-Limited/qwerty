@@ -1,4 +1,4 @@
-package com.bitchat.android.net
+package tech.arkraft.qwerty.net
 
 enum class TorMode {
     OFF,

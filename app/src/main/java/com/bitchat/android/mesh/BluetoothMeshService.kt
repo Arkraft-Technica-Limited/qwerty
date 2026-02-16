@@ -1,21 +1,21 @@
-package com.bitchat.android.mesh
+package tech.arkraft.qwerty.mesh
 
 import android.content.Context
 import android.util.Log
-import com.bitchat.android.crypto.EncryptionService
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.protocol.MessagePadding
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.model.IdentityAnnouncement
-import com.bitchat.android.model.NoisePayload
-import com.bitchat.android.model.NoisePayloadType
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.protocol.SpecialRecipients
-import com.bitchat.android.model.RequestSyncPacket
-import com.bitchat.android.sync.GossipSyncManager
-import com.bitchat.android.util.toHexString
-import com.bitchat.android.services.VerificationService
+import tech.arkraft.qwerty.crypto.EncryptionService
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.protocol.MessagePadding
+import tech.arkraft.qwerty.model.RoutedPacket
+import tech.arkraft.qwerty.model.IdentityAnnouncement
+import tech.arkraft.qwerty.model.NoisePayload
+import tech.arkraft.qwerty.model.NoisePayloadType
+import tech.arkraft.qwerty.protocol.BitchatPacket
+import tech.arkraft.qwerty.protocol.MessageType
+import tech.arkraft.qwerty.protocol.SpecialRecipients
+import tech.arkraft.qwerty.model.RequestSyncPacket
+import tech.arkraft.qwerty.sync.GossipSyncManager
+import tech.arkraft.qwerty.util.toHexString
+import tech.arkraft.qwerty.services.VerificationService
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.math.sign
@@ -35,11 +35,11 @@ import kotlin.random.Random
  * - PacketProcessor: Incoming packet routing
  */
 class BluetoothMeshService(private val context: Context) {
-    private val debugManager by lazy { try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance() } catch (e: Exception) { null } }
+    private val debugManager by lazy { try { tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance() } catch (e: Exception) { null } }
     
     companion object {
         private const val TAG = "BluetoothMeshService"
-        private val MAX_TTL: UByte = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+        private val MAX_TTL: UByte = tech.arkraft.qwerty.util.AppConstants.MESSAGE_TTL_HOPS
     }
     
     // Core components - each handling specific responsibilities
@@ -56,10 +56,10 @@ class BluetoothMeshService(private val context: Context) {
     private val packetProcessor = PacketProcessor(myPeerID)
     private lateinit var gossipSyncManager: GossipSyncManager
     // Service-level notification manager for background (no-UI) DMs
-    private val serviceNotificationManager = com.bitchat.android.ui.NotificationManager(
+    private val serviceNotificationManager = tech.arkraft.qwerty.ui.NotificationManager(
         context.applicationContext,
         androidx.core.app.NotificationManagerCompat.from(context.applicationContext),
-        com.bitchat.android.util.NotificationIntervalManager()
+        tech.arkraft.qwerty.util.NotificationIntervalManager()
     )
     
     // Service state management
@@ -86,15 +86,15 @@ class BluetoothMeshService(private val context: Context) {
             scope = serviceScope,
             configProvider = object : GossipSyncManager.ConfigProvider {
                 override fun seenCapacity(): Int = try {
-                    com.bitchat.android.ui.debug.DebugPreferenceManager.getSeenPacketCapacity(500)
+                    tech.arkraft.qwerty.ui.debug.DebugPreferenceManager.getSeenPacketCapacity(500)
                 } catch (_: Exception) { 500 }
 
                 override fun gcsMaxBytes(): Int = try {
-                    com.bitchat.android.ui.debug.DebugPreferenceManager.getGcsMaxFilterBytes(400)
+                    tech.arkraft.qwerty.ui.debug.DebugPreferenceManager.getGcsMaxFilterBytes(400)
                 } catch (_: Exception) { 400 }
 
                 override fun gcsTargetFpr(): Double = try {
-                    com.bitchat.android.ui.debug.DebugPreferenceManager.getGcsFprPercent(1.0) / 100.0
+                    tech.arkraft.qwerty.ui.debug.DebugPreferenceManager.getGcsFprPercent(1.0) / 100.0
                 } catch (_: Exception) { 0.01 }
             }
         )
@@ -175,14 +175,14 @@ class BluetoothMeshService(private val context: Context) {
         peerManager.delegate = object : PeerManagerDelegate {
             override fun onPeerListUpdated(peerIDs: List<String>) {
                 // Update process-wide state first
-                try { com.bitchat.android.services.AppStateStore.setPeers(peerIDs) } catch (_: Exception) { }
+                try { tech.arkraft.qwerty.services.AppStateStore.setPeers(peerIDs) } catch (_: Exception) { }
                 // Then notify UI delegate if attached
                 delegate?.didUpdatePeerList(peerIDs)
             }
             override fun onPeerRemoved(peerID: String) {
                 try { gossipSyncManager.removeAnnouncementForPeer(peerID) } catch (_: Exception) { }
                 // Remove from mesh graph topology to prevent routing through stale peers
-                try { com.bitchat.android.services.meshgraph.MeshGraphService.getInstance().removePeer(peerID) } catch (_: Exception) { }
+                try { tech.arkraft.qwerty.services.meshgraph.MeshGraphService.getInstance().removePeer(peerID) } catch (_: Exception) { }
 
                 // Also drop any Noise session state for this peer when they go offline
                 try {
@@ -367,8 +367,8 @@ class BluetoothMeshService(private val context: Context) {
 
                 // Index existing Nostr mapping by the new peerID if we have it
                 try {
-                    com.bitchat.android.favorites.FavoritesPersistenceService.shared.findNostrPubkey(publicKey)?.let { npub ->
-                        com.bitchat.android.favorites.FavoritesPersistenceService.shared.updateNostrPublicKeyForPeerID(newPeerID, npub)
+                    tech.arkraft.qwerty.favorites.FavoritesPersistenceService.shared.findNostrPubkey(publicKey)?.let { npub ->
+                        tech.arkraft.qwerty.favorites.FavoritesPersistenceService.shared.updateNostrPublicKeyForPeerID(newPeerID, npub)
                     }
                 } catch (_: Exception) { }
                 
@@ -392,13 +392,13 @@ class BluetoothMeshService(private val context: Context) {
                     when {
                         message.isPrivate -> {
                             val peer = message.senderPeerID ?: ""
-                            if (peer.isNotEmpty()) com.bitchat.android.services.AppStateStore.addPrivateMessage(peer, message)
+                            if (peer.isNotEmpty()) tech.arkraft.qwerty.services.AppStateStore.addPrivateMessage(peer, message)
                         }
                         message.channel != null -> {
-                            com.bitchat.android.services.AppStateStore.addChannelMessage(message.channel!!, message)
+                            tech.arkraft.qwerty.services.AppStateStore.addChannelMessage(message.channel!!, message)
                         }
                         else -> {
-                            com.bitchat.android.services.AppStateStore.addPublicMessage(message)
+                            tech.arkraft.qwerty.services.AppStateStore.addPublicMessage(message)
                         }
                     }
                 } catch (_: Exception) { }
@@ -411,7 +411,7 @@ class BluetoothMeshService(private val context: Context) {
                         val senderPeerID = message.senderPeerID
                         if (senderPeerID != null) {
                             val nick = try { peerManager.getPeerNickname(senderPeerID) } catch (_: Exception) { null } ?: senderPeerID
-                            val preview = com.bitchat.android.ui.NotificationTextUtils.buildPrivateMessagePreview(message)
+                            val preview = tech.arkraft.qwerty.ui.NotificationTextUtils.buildPrivateMessagePreview(message)
                             serviceNotificationManager.setAppBackgroundState(true)
                             serviceNotificationManager.showPrivateMessageNotification(senderPeerID, nick, preview)
                         }
@@ -483,7 +483,7 @@ class BluetoothMeshService(private val context: Context) {
                     if (deviceAddress != null && pid != null) {
                         // Check if this is a direct connection (MAX TTL)
                         // Note: packet.ttl is UByte, compare with AppConstants.MESSAGE_TTL_HOPS
-                        val isDirect = routed.packet.ttl == com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+                        val isDirect = routed.packet.ttl == tech.arkraft.qwerty.util.AppConstants.MESSAGE_TTL_HOPS
                         
                         if (isDirect) {
                             // Bind or rebind this device address to the announcing peer
@@ -558,7 +558,7 @@ class BluetoothMeshService(private val context: Context) {
         override fun onPacketReceived(packet: BitchatPacket, peerID: String, device: android.bluetooth.BluetoothDevice?) {
             // Log incoming for debug graphs (do not double-count anywhere else)
             try {
-                com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().logIncoming(
+                tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance().logIncoming(
                     packet = packet,
                     fromPeerID = peerID,
                     fromNickname = null,
@@ -581,7 +581,7 @@ class BluetoothMeshService(private val context: Context) {
                     val addr = device.address
                     val peer = connectionManager.addressPeerMap[addr]
                     val nick = peer?.let { peerManager.getPeerNickname(it) } ?: "unknown"
-                    com.bitchat.android.ui.debug.DebugSettingsManager.getInstance()
+                    tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance()
                         .logPeerConnection(peer ?: "unknown", nick, addr, isInbound = !connectionManager.isClientConnection(addr)!!)
                 } catch (_: Exception) { }
             }
@@ -601,7 +601,7 @@ class BluetoothMeshService(private val context: Context) {
                     // Verbose debug: device disconnected
                     try {
                         val nick = peerManager.getPeerNickname(peer) ?: "unknown"
-                        com.bitchat.android.ui.debug.DebugSettingsManager.getInstance()
+                        tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance()
                             .logPeerDisconnection(peer, nick, addr)
                     } catch (_: Exception) { }
                 }
@@ -726,7 +726,7 @@ class BluetoothMeshService(private val context: Context) {
     /**
      * Send a file over mesh as a broadcast MESSAGE (public mesh timeline/channels).
      */
-    fun sendFileBroadcast(file: com.bitchat.android.model.BitchatFilePacket) {
+    fun sendFileBroadcast(file: tech.arkraft.qwerty.model.BitchatFilePacket) {
         try {
             Log.d(TAG, "📤 sendFileBroadcast: name=${file.fileName}, size=${file.fileSize}")
             val payload = file.encode()
@@ -761,7 +761,7 @@ class BluetoothMeshService(private val context: Context) {
     /**
      * Send a file as an encrypted private message using Noise protocol
      */
-    fun sendFilePrivate(recipientPeerID: String, file: com.bitchat.android.model.BitchatFilePacket) {
+    fun sendFilePrivate(recipientPeerID: String, file: tech.arkraft.qwerty.model.BitchatFilePacket) {
         try {
             Log.d(TAG, "📤 sendFilePrivate (ENCRYPTED): to=$recipientPeerID, name=${file.fileName}, size=${file.fileSize}")
             
@@ -778,8 +778,8 @@ class BluetoothMeshService(private val context: Context) {
                         Log.d(TAG, "📦 Encoded file TLV: ${filePayload.size} bytes")
                         
                         // Create NoisePayload wrapper (type byte + file TLV data) - same as iOS
-                        val noisePayload = com.bitchat.android.model.NoisePayload(
-                            type = com.bitchat.android.model.NoisePayloadType.FILE_TRANSFER,
+                        val noisePayload = tech.arkraft.qwerty.model.NoisePayload(
+                            type = tech.arkraft.qwerty.model.NoisePayloadType.FILE_TRANSFER,
                             data = filePayload
                         )
                         
@@ -800,7 +800,7 @@ class BluetoothMeshService(private val context: Context) {
                             timestamp = System.currentTimeMillis().toULong(),
                             payload = encrypted,
                             signature = null,
-                            ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+                            ttl = tech.arkraft.qwerty.util.AppConstants.MESSAGE_TTL_HOPS
                         )
                         
                         // Sign and send the encrypted packet
@@ -853,7 +853,7 @@ class BluetoothMeshService(private val context: Context) {
             if (encryptionService.hasEstablishedSession(recipientPeerID)) {
                 try {
                     // Create TLV-encoded private message exactly like iOS
-                    val privateMessage = com.bitchat.android.model.PrivateMessagePacket(
+                    val privateMessage = tech.arkraft.qwerty.model.PrivateMessagePacket(
                         messageID = finalMessageID,
                         content = content
                     )
@@ -865,8 +865,8 @@ class BluetoothMeshService(private val context: Context) {
                     }
                     
                     // Create message payload with NoisePayloadType prefix: [type byte] + [TLV data]
-                    val messagePayload = com.bitchat.android.model.NoisePayload(
-                        type = com.bitchat.android.model.NoisePayloadType.PRIVATE_MESSAGE,
+                    val messagePayload = tech.arkraft.qwerty.model.NoisePayload(
+                        type = tech.arkraft.qwerty.model.NoisePayloadType.PRIVATE_MESSAGE,
                         data = tlvData
                     )
                     
@@ -917,27 +917,27 @@ class BluetoothMeshService(private val context: Context) {
             Log.d(TAG, "📖 Sending read receipt for message $messageID to $recipientPeerID")
 
             // Route geohash read receipts via MessageRouter instead of here
-            val geo = runCatching { com.bitchat.android.services.MessageRouter.tryGetInstance() }.getOrNull()
+            val geo = runCatching { tech.arkraft.qwerty.services.MessageRouter.tryGetInstance() }.getOrNull()
             val isGeoAlias = try {
-                val map = com.bitchat.android.nostr.GeohashAliasRegistry.snapshot()
+                val map = tech.arkraft.qwerty.nostr.GeohashAliasRegistry.snapshot()
                 map.containsKey(recipientPeerID)
             } catch (_: Exception) { false }
             if (isGeoAlias && geo != null) {
-                geo.sendReadReceipt(com.bitchat.android.model.ReadReceipt(messageID), recipientPeerID)
+                geo.sendReadReceipt(tech.arkraft.qwerty.model.ReadReceipt(messageID), recipientPeerID)
                 return@launch
             }
 
             try {
                 // Avoid duplicate read receipts: check persistent store first
-                val seenStore = try { com.bitchat.android.services.SeenMessageStore.getInstance(context.applicationContext) } catch (_: Exception) { null }
+                val seenStore = try { tech.arkraft.qwerty.services.SeenMessageStore.getInstance(context.applicationContext) } catch (_: Exception) { null }
                 if (seenStore?.hasRead(messageID) == true) {
                     Log.d(TAG, "Skipping read receipt for $messageID - already marked read")
                     return@launch
                 }
 
                 // Create read receipt payload using NoisePayloadType exactly like iOS
-                val readReceiptPayload = com.bitchat.android.model.NoisePayload(
-                    type = com.bitchat.android.model.NoisePayloadType.READ_RECEIPT,
+                val readReceiptPayload = tech.arkraft.qwerty.model.NoisePayload(
+                    type = tech.arkraft.qwerty.model.NoisePayloadType.READ_RECEIPT,
                     data = messageID.toByteArray(Charsets.UTF_8)
                 )
                 
@@ -953,7 +953,7 @@ class BluetoothMeshService(private val context: Context) {
                     timestamp = System.currentTimeMillis().toULong(),
                     payload = encrypted,
                     signature = null,
-                    ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS // Same TTL as iOS messageTTL
+                    ttl = tech.arkraft.qwerty.util.AppConstants.MESSAGE_TTL_HOPS // Same TTL as iOS messageTTL
                 )
                 
                 // Sign the packet before broadcasting
@@ -1002,7 +1002,7 @@ class BluetoothMeshService(private val context: Context) {
                     timestamp = System.currentTimeMillis().toULong(),
                     payload = encrypted,
                     signature = null,
-                    ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+                    ttl = tech.arkraft.qwerty.util.AppConstants.MESSAGE_TTL_HOPS
                 )
 
                 val signedPacket = signPacketBeforeBroadcast(packet)
@@ -1020,7 +1020,7 @@ class BluetoothMeshService(private val context: Context) {
     fun sendBroadcastAnnounce() {
         Log.d(TAG, "Sending broadcast announce")
         serviceScope.launch {
-            val nickname = try { com.bitchat.android.services.NicknameProvider.getNickname(context, myPeerID) } catch (_: Exception) { myPeerID }
+            val nickname = try { tech.arkraft.qwerty.services.NicknameProvider.getNickname(context, myPeerID) } catch (_: Exception) { myPeerID }
             
             // Get the static public key for the announcement
             val staticKey = encryptionService.getStaticPublicKey()
@@ -1048,12 +1048,12 @@ class BluetoothMeshService(private val context: Context) {
             try {
                 val directPeers = getDirectPeerIDsForGossip()
                 if (directPeers.isNotEmpty()) {
-                    val gossip = com.bitchat.android.services.meshgraph.GossipTLV.encodeNeighbors(directPeers)
+                    val gossip = tech.arkraft.qwerty.services.meshgraph.GossipTLV.encodeNeighbors(directPeers)
                     tlvPayload = tlvPayload + gossip
                 }
                 // Always update our own node in the mesh graph with the neighbor list we used
                 try {
-                    com.bitchat.android.services.meshgraph.MeshGraphService.getInstance()
+                    tech.arkraft.qwerty.services.meshgraph.MeshGraphService.getInstance()
                         .updateFromAnnouncement(myPeerID, nickname, directPeers, System.currentTimeMillis().toULong())
                 } catch (_: Exception) { }
             } catch (_: Exception) { }
@@ -1083,7 +1083,7 @@ class BluetoothMeshService(private val context: Context) {
     fun sendAnnouncementToPeer(peerID: String) {
         if (peerManager.hasAnnouncedToPeer(peerID)) return
         
-        val nickname = try { com.bitchat.android.services.NicknameProvider.getNickname(context, myPeerID) } catch (_: Exception) { myPeerID }
+        val nickname = try { tech.arkraft.qwerty.services.NicknameProvider.getNickname(context, myPeerID) } catch (_: Exception) { myPeerID }
         
         // Get the static public key for the announcement
         val staticKey = encryptionService.getStaticPublicKey()
@@ -1111,12 +1111,12 @@ class BluetoothMeshService(private val context: Context) {
         try {
             val directPeers = getDirectPeerIDsForGossip()
             if (directPeers.isNotEmpty()) {
-                val gossip = com.bitchat.android.services.meshgraph.GossipTLV.encodeNeighbors(directPeers)
+                val gossip = tech.arkraft.qwerty.services.meshgraph.GossipTLV.encodeNeighbors(directPeers)
                 tlvPayload = tlvPayload + gossip
             }
             // Always update our own node in the mesh graph with the neighbor list we used
             try {
-                com.bitchat.android.services.meshgraph.MeshGraphService.getInstance()
+                tech.arkraft.qwerty.services.meshgraph.MeshGraphService.getInstance()
                     .updateFromAnnouncement(myPeerID, nickname, directPeers, System.currentTimeMillis().toULong())
             } catch (_: Exception) { }
         } catch (_: Exception) { }
@@ -1191,7 +1191,7 @@ class BluetoothMeshService(private val context: Context) {
     /**
      * Get session state for a peer (for UI state display)
      */
-    fun getSessionState(peerID: String): com.bitchat.android.noise.NoiseSession.NoiseSessionState {
+    fun getSessionState(peerID: String): tech.arkraft.qwerty.noise.NoiseSession.NoiseSessionState {
         return encryptionService.getSessionState(peerID)
     }
     
@@ -1342,7 +1342,7 @@ class BluetoothMeshService(private val context: Context) {
                 val rec = packet.recipientID
                 if (rec != null && !rec.contentEquals(SpecialRecipients.BROADCAST)) {
                     val dest = rec.joinToString("") { b -> "%02x".format(b) }
-                    val path = com.bitchat.android.services.meshgraph.RoutePlanner.shortestPath(myPeerID, dest)
+                    val path = tech.arkraft.qwerty.services.meshgraph.RoutePlanner.shortestPath(myPeerID, dest)
                     if (path != null && path.size >= 3) {
                         // Exclude first (sender) and last (recipient); only intermediates
                         val intermediates = path.subList(1, path.size - 1)

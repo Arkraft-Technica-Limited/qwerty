@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.debug
+package tech.arkraft.qwerty.ui.debug
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.util.Date
 import java.util.concurrent.ConcurrentLinkedQueue
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.util.toHexString
+import tech.arkraft.qwerty.protocol.BitchatPacket
+import tech.arkraft.qwerty.util.toHexString
 
 /**
  * Debug settings manager for controlling debug features and collecting debug data

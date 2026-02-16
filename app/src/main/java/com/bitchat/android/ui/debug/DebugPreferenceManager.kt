@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.debug
+package tech.arkraft.qwerty.ui.debug
 
 import android.content.Context
 import android.content.SharedPreferences

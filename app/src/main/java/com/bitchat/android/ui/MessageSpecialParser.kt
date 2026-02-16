@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import androidx.compose.ui.text.AnnotatedString
 import android.util.Patterns

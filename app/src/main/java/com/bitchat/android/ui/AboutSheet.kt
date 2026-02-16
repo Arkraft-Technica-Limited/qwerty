@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -26,15 +26,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bitchat.android.nostr.NostrProofOfWork
-import com.bitchat.android.nostr.PoWPreferenceManager
+import tech.arkraft.qwerty.nostr.NostrProofOfWork
+import tech.arkraft.qwerty.nostr.PoWPreferenceManager
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
-import com.bitchat.android.core.ui.component.button.CloseButton
-import com.bitchat.android.core.ui.component.sheet.BitchatBottomSheet
-import com.bitchat.android.net.TorMode
-import com.bitchat.android.net.TorPreferenceManager
-import com.bitchat.android.net.ArtiTorManager
+import tech.arkraft.qwerty.R
+import tech.arkraft.qwerty.core.ui.component.button.CloseButton
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatBottomSheet
+import tech.arkraft.qwerty.net.TorMode
+import tech.arkraft.qwerty.net.TorPreferenceManager
+import tech.arkraft.qwerty.net.ArtiTorManager
 
 /**
  * Feature row for displaying app capabilities
@@ -328,7 +328,7 @@ fun AboutSheet(
                                 letterSpacing = 0.5.sp,
                                 modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
                             )
-                            val themePref by com.bitchat.android.ui.theme.ThemePreferenceManager.themeFlow.collectAsState()
+                            val themePref by tech.arkraft.qwerty.ui.theme.ThemePreferenceManager.themeFlow.collectAsState()
                             Surface(
                                 modifier = Modifier.fillMaxWidth(),
                                 color = colorScheme.surface,
@@ -343,19 +343,19 @@ fun AboutSheet(
                                     ThemeChip(
                                         label = stringResource(R.string.about_system),
                                         selected = themePref.isSystem,
-                                        onClick = { com.bitchat.android.ui.theme.ThemePreferenceManager.set(context, com.bitchat.android.ui.theme.ThemePreference.System) },
+                                        onClick = { tech.arkraft.qwerty.ui.theme.ThemePreferenceManager.set(context, tech.arkraft.qwerty.ui.theme.ThemePreference.System) },
                                         modifier = Modifier.weight(1f)
                                     )
                                     ThemeChip(
                                         label = stringResource(R.string.about_light),
                                         selected = themePref.isLight,
-                                        onClick = { com.bitchat.android.ui.theme.ThemePreferenceManager.set(context, com.bitchat.android.ui.theme.ThemePreference.Light) },
+                                        onClick = { tech.arkraft.qwerty.ui.theme.ThemePreferenceManager.set(context, tech.arkraft.qwerty.ui.theme.ThemePreference.Light) },
                                         modifier = Modifier.weight(1f)
                                     )
                                     ThemeChip(
                                         label = stringResource(R.string.about_dark),
                                         selected = themePref.isDark,
-                                        onClick = { com.bitchat.android.ui.theme.ThemePreferenceManager.set(context, com.bitchat.android.ui.theme.ThemePreference.Dark) },
+                                        onClick = { tech.arkraft.qwerty.ui.theme.ThemePreferenceManager.set(context, tech.arkraft.qwerty.ui.theme.ThemePreference.Dark) },
                                         modifier = Modifier.weight(1f)
                                     )
                                 }
@@ -368,7 +368,7 @@ fun AboutSheet(
                         LaunchedEffect(Unit) { PoWPreferenceManager.init(context) }
                         val powEnabled by PoWPreferenceManager.powEnabled.collectAsState()
                         val powDifficulty by PoWPreferenceManager.powDifficulty.collectAsState()
-                        var backgroundEnabled by remember { mutableStateOf(com.bitchat.android.service.MeshServicePreferences.isBackgroundEnabled(true)) }
+                        var backgroundEnabled by remember { mutableStateOf(tech.arkraft.qwerty.service.MeshServicePreferences.isBackgroundEnabled(true)) }
                         val torMode = remember { mutableStateOf(TorPreferenceManager.get(context)) }
                         val torProvider = remember { ArtiTorManager.getInstance() }
                         val torStatus by torProvider.statusFlow.collectAsState()
@@ -396,11 +396,11 @@ fun AboutSheet(
                                         checked = backgroundEnabled,
                                         onCheckedChange = { enabled ->
                                             backgroundEnabled = enabled
-                                            com.bitchat.android.service.MeshServicePreferences.setBackgroundEnabled(enabled)
+                                            tech.arkraft.qwerty.service.MeshServicePreferences.setBackgroundEnabled(enabled)
                                             if (!enabled) {
-                                                com.bitchat.android.service.MeshForegroundService.stop(context)
+                                                tech.arkraft.qwerty.service.MeshForegroundService.stop(context)
                                             } else {
-                                                com.bitchat.android.service.MeshForegroundService.start(context)
+                                                tech.arkraft.qwerty.service.MeshForegroundService.start(context)
                                             }
                                         }
                                     )

@@ -1,4 +1,4 @@
-package com.bitchat.android.utils
+package tech.arkraft.qwerty.utils
 
 import android.content.Context
 import android.content.res.Configuration

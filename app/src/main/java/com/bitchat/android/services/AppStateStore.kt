@@ -1,7 +1,7 @@
-package com.bitchat.android.services
+package tech.arkraft.qwerty.services
 
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.DeliveryStatus
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.model.DeliveryStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

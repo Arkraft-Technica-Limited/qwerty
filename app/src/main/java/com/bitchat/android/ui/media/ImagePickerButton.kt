@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package tech.arkraft.qwerty.ui.media
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.bitchat.android.features.media.ImageUtils
+import tech.arkraft.qwerty.features.media.ImageUtils
 import java.io.File
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -50,7 +50,7 @@ fun ImagePickerButton(
         val path = capturedImagePath
         if (success && !path.isNullOrBlank()) {
             // Downscale + correct orientation, then send; delete original
-            val outPath = com.bitchat.android.features.media.ImageUtils.downscalePathAndSaveToAppFiles(context, path)
+            val outPath = tech.arkraft.qwerty.features.media.ImageUtils.downscalePathAndSaveToAppFiles(context, path)
             if (!outPath.isNullOrBlank()) {
                 onImageReady(outPath)
             }
@@ -103,7 +103,7 @@ fun ImagePickerButton(
     ) {
         Icon(
             imageVector = Icons.Filled.PhotoCamera,
-            contentDescription = stringResource(com.bitchat.android.R.string.pick_image),
+            contentDescription = stringResource(tech.arkraft.qwerty.R.string.pick_image),
             tint = Color.Gray,
             modifier = Modifier.size(20.dp)
         )

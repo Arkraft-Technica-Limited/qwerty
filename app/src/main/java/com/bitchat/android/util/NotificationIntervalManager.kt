@@ -1,4 +1,4 @@
-package com.bitchat.android.util
+package tech.arkraft.qwerty.util
 
 class NotificationIntervalManager {
   private var _lastNetworkNotificationTime = 0L

@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package tech.arkraft.qwerty.ui.media
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth

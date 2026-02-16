@@ -1,4 +1,4 @@
-package com.bitchat.android.geohash
+package tech.arkraft.qwerty.geohash
 
 /**
  * Lightweight Geohash encoder used for Location Channels.

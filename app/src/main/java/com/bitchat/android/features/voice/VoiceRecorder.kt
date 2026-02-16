@@ -1,5 +1,5 @@
 
-package com.bitchat.android.features.voice
+package tech.arkraft.qwerty.features.voice
 
 import android.content.Context
 import android.media.MediaRecorder

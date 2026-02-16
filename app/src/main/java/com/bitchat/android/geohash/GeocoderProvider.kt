@@ -1,4 +1,4 @@
-package com.bitchat.android.geohash
+package tech.arkraft.qwerty.geohash
 
 import android.location.Address
 

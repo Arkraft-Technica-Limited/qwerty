@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package tech.arkraft.qwerty.ui.media
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,8 +32,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bitchat.android.features.file.FileUtils
-import com.bitchat.android.model.BitchatFilePacket
+import tech.arkraft.qwerty.features.file.FileUtils
+import tech.arkraft.qwerty.model.BitchatFilePacket
 
 /**
  * Modern chat-style file message display
@@ -63,7 +63,7 @@ fun FileMessageItem(
             // File icon
             Icon(
                 imageVector = Icons.Filled.Description,
-                contentDescription = stringResource(com.bitchat.android.R.string.cd_file),
+                contentDescription = stringResource(tech.arkraft.qwerty.R.string.cd_file),
                 tint = getFileIconColor(packet.fileName),
                 modifier = Modifier.size(32.dp)
             )

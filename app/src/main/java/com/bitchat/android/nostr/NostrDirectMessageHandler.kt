@@ -1,18 +1,18 @@
-package com.bitchat.android.nostr
+package tech.arkraft.qwerty.nostr
 
 import android.app.Application
 import android.util.Log
-import com.bitchat.android.model.BitchatFilePacket
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.DeliveryStatus
-import com.bitchat.android.model.NoisePayload
-import com.bitchat.android.model.NoisePayloadType
-import com.bitchat.android.model.PrivateMessagePacket
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.services.SeenMessageStore
-import com.bitchat.android.ui.ChatState
-import com.bitchat.android.ui.MeshDelegateHandler
-import com.bitchat.android.ui.PrivateChatManager
+import tech.arkraft.qwerty.model.BitchatFilePacket
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.model.DeliveryStatus
+import tech.arkraft.qwerty.model.NoisePayload
+import tech.arkraft.qwerty.model.NoisePayloadType
+import tech.arkraft.qwerty.model.PrivateMessagePacket
+import tech.arkraft.qwerty.protocol.BitchatPacket
+import tech.arkraft.qwerty.services.SeenMessageStore
+import tech.arkraft.qwerty.ui.ChatState
+import tech.arkraft.qwerty.ui.MeshDelegateHandler
+import tech.arkraft.qwerty.ui.PrivateChatManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ class NostrDirectMessageHandler(
     private val meshDelegateHandler: MeshDelegateHandler,
     private val scope: CoroutineScope,
     private val repo: GeohashRepository,
-    private val dataManager: com.bitchat.android.ui.DataManager
+    private val dataManager: tech.arkraft.qwerty.ui.DataManager
 ) {
     companion object { private const val TAG = "NostrDirectMessageHandler" }
 
@@ -73,13 +73,13 @@ class NostrDirectMessageHandler(
                 val packetData = base64URLDecode(base64Content) ?: return@launch
                 val packet = BitchatPacket.fromBinaryData(packetData) ?: return@launch
 
-                if (packet.type != com.bitchat.android.protocol.MessageType.NOISE_ENCRYPTED.value) return@launch
+                if (packet.type != tech.arkraft.qwerty.protocol.MessageType.NOISE_ENCRYPTED.value) return@launch
 
                 val noisePayload = NoisePayload.decode(packet.payload) ?: return@launch
                 val messageTimestamp = Date(giftWrap.createdAt * 1000L)
                 val convKey = "nostr_${senderPubkey.take(16)}"
                 repo.putNostrKeyMapping(convKey, senderPubkey)
-                com.bitchat.android.nostr.GeohashAliasRegistry.put(convKey, senderPubkey)
+                tech.arkraft.qwerty.nostr.GeohashAliasRegistry.put(convKey, senderPubkey)
                 if (geohash.isNotEmpty()) {
                     // Remember which geohash this conversation belongs to so we can subscribe on-demand
                     repo.setConversationGeohash(convKey, geohash)
@@ -169,12 +169,12 @@ class NostrDirectMessageHandler(
                 val file = BitchatFilePacket.decode(payload.data)
                 if (file != null) {
                     val uniqueMsgId = java.util.UUID.randomUUID().toString().uppercase()
-                    val savedPath = com.bitchat.android.features.file.FileUtils.saveIncomingFile(application, file)
+                    val savedPath = tech.arkraft.qwerty.features.file.FileUtils.saveIncomingFile(application, file)
                     val message = BitchatMessage(
                         id = uniqueMsgId,
                         sender = senderNickname,
                         content = savedPath,
-                        type = com.bitchat.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
+                        type = tech.arkraft.qwerty.features.file.FileUtils.messageTypeForMime(file.mimeType),
                         timestamp = timestamp,
                         isRelay = false,
                         isPrivate = true,

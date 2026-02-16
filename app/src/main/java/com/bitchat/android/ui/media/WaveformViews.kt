@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package tech.arkraft.qwerty.ui.media
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,9 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.bitchat.android.features.voice.AudioWaveformExtractor
-import com.bitchat.android.features.voice.VoiceWaveformCache
-import com.bitchat.android.features.voice.resampleWave
+import tech.arkraft.qwerty.features.voice.AudioWaveformExtractor
+import tech.arkraft.qwerty.features.voice.VoiceWaveformCache
+import tech.arkraft.qwerty.features.voice.resampleWave
 
 @Composable
 fun ScrollingWaveformRecorder(

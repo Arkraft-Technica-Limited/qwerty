@@ -1,8 +1,8 @@
-package com.bitchat.android.mesh
+package tech.arkraft.qwerty.mesh
 
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.model.FragmentPayload
+import tech.arkraft.qwerty.protocol.BitchatPacket
+import tech.arkraft.qwerty.protocol.MessageType
+import tech.arkraft.qwerty.model.FragmentPayload
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue

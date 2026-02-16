@@ -1,6 +1,6 @@
-package com.bitchat.android.model
+package tech.arkraft.qwerty.model
 
-import com.bitchat.android.sync.SyncDefaults
+import tech.arkraft.qwerty.sync.SyncDefaults
 
 /**
  * REQUEST_SYNC payload using GCS (Golomb-Coded Set) parameters.

@@ -1,8 +1,10 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,25 +24,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import com.bitchat.android.geohash.ChannelID
-import kotlinx.coroutines.launch
-import com.bitchat.android.geohash.GeohashChannel
-import com.bitchat.android.geohash.GeohashChannelLevel
-import com.bitchat.android.geohash.LocationChannelManager
-import com.bitchat.android.geohash.GeohashBookmarksStore
-import com.bitchat.android.ui.theme.BASE_FONT_SIZE
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.R
-import com.bitchat.android.core.ui.component.sheet.BitchatBottomSheet
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetTopBar
-import com.bitchat.android.core.ui.component.sheet.BitchatSheetTitle
+import tech.arkraft.qwerty.R
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatBottomSheet
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetTitle
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatSheetTopBar
+import tech.arkraft.qwerty.geohash.ChannelID
+import tech.arkraft.qwerty.geohash.GeohashBookmarksStore
+import tech.arkraft.qwerty.geohash.GeohashChannel
+import tech.arkraft.qwerty.geohash.GeohashChannelLevel
+import tech.arkraft.qwerty.geohash.LocationChannelManager
+import tech.arkraft.qwerty.ui.theme.BASE_FONT_SIZE
+import kotlinx.coroutines.launch
 
 /**
  * Location Channels Sheet for selecting geohash-based location channels
@@ -650,8 +650,8 @@ private fun splitTitleAndCount(title: String): Pair<String, String?> {
 private fun meshTitleWithCount(viewModel: ChatViewModel): String {
     val meshCount = meshCount(viewModel)
     val ctx = androidx.compose.ui.platform.LocalContext.current
-    val peopleText = ctx.resources.getQuantityString(com.bitchat.android.R.plurals.people_count, meshCount, meshCount)
-    val meshLabel = stringResource(com.bitchat.android.R.string.mesh_label)
+    val peopleText = ctx.resources.getQuantityString(tech.arkraft.qwerty.R.plurals.people_count, meshCount, meshCount)
+    val meshLabel = stringResource(tech.arkraft.qwerty.R.string.mesh_label)
     return "$meshLabel [$peopleText]"
 }
 
@@ -670,18 +670,18 @@ private fun geohashTitleWithCount(channel: GeohashChannel, participantCount: Int
     // show "? people" instead of "0 people" to avoid misleading "nobody is here" indication.
     val isHighPrecision = channel.level.precision > 5
     val peopleText = if (isHighPrecision && participantCount == 0) {
-        ctx.resources.getQuantityString(com.bitchat.android.R.plurals.people_count, 0, 0).replace("0", "?")
+        ctx.resources.getQuantityString(tech.arkraft.qwerty.R.plurals.people_count, 0, 0).replace("0", "?")
     } else {
-        ctx.resources.getQuantityString(com.bitchat.android.R.plurals.people_count, participantCount, participantCount)
+        ctx.resources.getQuantityString(tech.arkraft.qwerty.R.plurals.people_count, participantCount, participantCount)
     }
 
     val levelName = when (channel.level) {
-        com.bitchat.android.geohash.GeohashChannelLevel.BUILDING -> "Building" // iOS: precision 8 for location notes
-        com.bitchat.android.geohash.GeohashChannelLevel.BLOCK -> stringResource(com.bitchat.android.R.string.location_level_block)
-        com.bitchat.android.geohash.GeohashChannelLevel.NEIGHBORHOOD -> stringResource(com.bitchat.android.R.string.location_level_neighborhood)
-        com.bitchat.android.geohash.GeohashChannelLevel.CITY -> stringResource(com.bitchat.android.R.string.location_level_city)
-        com.bitchat.android.geohash.GeohashChannelLevel.PROVINCE -> stringResource(com.bitchat.android.R.string.location_level_province)
-        com.bitchat.android.geohash.GeohashChannelLevel.REGION -> stringResource(com.bitchat.android.R.string.location_level_region)
+        tech.arkraft.qwerty.geohash.GeohashChannelLevel.BUILDING -> "Building" // iOS: precision 8 for location notes
+        tech.arkraft.qwerty.geohash.GeohashChannelLevel.BLOCK -> stringResource(tech.arkraft.qwerty.R.string.location_level_block)
+        tech.arkraft.qwerty.geohash.GeohashChannelLevel.NEIGHBORHOOD -> stringResource(tech.arkraft.qwerty.R.string.location_level_neighborhood)
+        tech.arkraft.qwerty.geohash.GeohashChannelLevel.CITY -> stringResource(tech.arkraft.qwerty.R.string.location_level_city)
+        tech.arkraft.qwerty.geohash.GeohashChannelLevel.PROVINCE -> stringResource(tech.arkraft.qwerty.R.string.location_level_province)
+        tech.arkraft.qwerty.geohash.GeohashChannelLevel.REGION -> stringResource(tech.arkraft.qwerty.R.string.location_level_region)
     }
     return "$levelName [$peopleText]"
 }
@@ -693,9 +693,9 @@ private fun geohashHashTitleWithCount(geohash: String, participantCount: Int): S
     val isHighPrecision = level.precision > 5
 
     val peopleText = if (isHighPrecision && participantCount == 0) {
-        ctx.resources.getQuantityString(com.bitchat.android.R.plurals.people_count, 0, 0).replace("0", "?")
+        ctx.resources.getQuantityString(tech.arkraft.qwerty.R.plurals.people_count, 0, 0).replace("0", "?")
     } else {
-        ctx.resources.getQuantityString(com.bitchat.android.R.plurals.people_count, participantCount, participantCount)
+        ctx.resources.getQuantityString(tech.arkraft.qwerty.R.plurals.people_count, participantCount, participantCount)
     }
     
     return "#$geohash [$peopleText]"

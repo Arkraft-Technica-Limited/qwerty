@@ -1,11 +1,11 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.DeliveryStatus
-import com.bitchat.android.mesh.PeerFingerprintManager
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.model.DeliveryStatus
+import tech.arkraft.qwerty.mesh.PeerFingerprintManager
 import java.security.MessageDigest
 
-import com.bitchat.android.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
 import java.util.*
 import android.util.Log
 
@@ -433,10 +433,10 @@ class PrivateChatManager(
         // If we know the sender's Nostr pubkey for this peer via favorites, derive temp key
         try {
             val noiseKeyBytes = targetPeerID.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
-            val npub = com.bitchat.android.favorites.FavoritesPersistenceService.shared.findNostrPubkey(noiseKeyBytes)
+            val npub = tech.arkraft.qwerty.favorites.FavoritesPersistenceService.shared.findNostrPubkey(noiseKeyBytes)
             if (npub != null) {
                 // Normalize to hex to match how we formed temp keys (nostr_<pub16>)
-                val (hrp, data) = com.bitchat.android.nostr.Bech32.decode(npub)
+                val (hrp, data) = tech.arkraft.qwerty.nostr.Bech32.decode(npub)
                 if (hrp == "npub") {
                     val pubHex = data.joinToString("") { "%02x".format(it) }
                     tryMergeKeys.add("nostr_${pubHex.take(16)}")

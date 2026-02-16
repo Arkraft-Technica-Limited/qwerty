@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.theme
+package tech.arkraft.qwerty.ui.theme
 
 import android.content.Context
 import kotlinx.coroutines.flow.MutableStateFlow

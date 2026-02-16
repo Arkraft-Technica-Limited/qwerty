@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -15,10 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.bitchat.android.R
-import com.bitchat.android.geohash.ChannelID
-import com.bitchat.android.geohash.LocationChannelManager
-import com.bitchat.android.nostr.LocationNotesManager
+import tech.arkraft.qwerty.R
+import tech.arkraft.qwerty.geohash.ChannelID
+import tech.arkraft.qwerty.geohash.LocationChannelManager
+import tech.arkraft.qwerty.nostr.LocationNotesManager
 
 /**
  * Location Notes button component for MainHeader

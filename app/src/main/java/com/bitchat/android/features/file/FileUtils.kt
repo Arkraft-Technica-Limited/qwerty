@@ -1,4 +1,4 @@
-package com.bitchat.android.features.file
+package tech.arkraft.qwerty.features.file
 
 import android.content.Context
 import android.net.Uri
@@ -193,7 +193,7 @@ object FileUtils {
      */
     fun saveIncomingFile(
         context: Context,
-        file: com.bitchat.android.model.BitchatFilePacket
+        file: tech.arkraft.qwerty.model.BitchatFilePacket
     ): String {
         val lowerMime = file.mimeType.lowercase()
         val isImage = lowerMime.startsWith("image/")
@@ -265,12 +265,12 @@ object FileUtils {
     /**
      * Classify BitchatMessageType from MIME string used in file messages.
      */
-    fun messageTypeForMime(mime: String): com.bitchat.android.model.BitchatMessageType {
+    fun messageTypeForMime(mime: String): tech.arkraft.qwerty.model.BitchatMessageType {
         val lower = mime.lowercase()
         return when {
-            lower.startsWith("image/") -> com.bitchat.android.model.BitchatMessageType.Image
-            lower.startsWith("audio/") -> com.bitchat.android.model.BitchatMessageType.Audio
-            else -> com.bitchat.android.model.BitchatMessageType.File
+            lower.startsWith("image/") -> tech.arkraft.qwerty.model.BitchatMessageType.Image
+            lower.startsWith("audio/") -> tech.arkraft.qwerty.model.BitchatMessageType.Audio
+            else -> tech.arkraft.qwerty.model.BitchatMessageType.File
         }
     }
 

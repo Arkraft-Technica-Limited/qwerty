@@ -1,15 +1,15 @@
 
-package com.bitchat.android.mesh
+package tech.arkraft.qwerty.mesh
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattServer
 import android.util.Log
-import com.bitchat.android.protocol.SpecialRecipients
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.util.toHexString
+import tech.arkraft.qwerty.protocol.SpecialRecipients
+import tech.arkraft.qwerty.model.RoutedPacket
+import tech.arkraft.qwerty.protocol.MessageType
+import tech.arkraft.qwerty.util.toHexString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -48,7 +48,7 @@ class BluetoothPacketBroadcaster(
     
     companion object {
         private const val TAG = "BluetoothPacketBroadcaster"
-        private const val CLEANUP_DELAY = com.bitchat.android.util.AppConstants.Mesh.BROADCAST_CLEANUP_DELAY_MS
+        private const val CLEANUP_DELAY = tech.arkraft.qwerty.util.AppConstants.Mesh.BROADCAST_CLEANUP_DELAY_MS
     }
 
     // Optional nickname resolver injected by higher layer (peerID -> nickname?)
@@ -76,7 +76,7 @@ class BluetoothPacketBroadcaster(
         try {
             val fromNick = incomingPeer?.let { nicknameResolver?.invoke(it) }
             val toNick = toPeer?.let { nicknameResolver?.invoke(it) }
-            val manager = com.bitchat.android.ui.debug.DebugSettingsManager.getInstance()
+            val manager = tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance()
             // Always log outgoing for the actual transmission target
             manager.logOutgoing(
                 packetType = typeName,

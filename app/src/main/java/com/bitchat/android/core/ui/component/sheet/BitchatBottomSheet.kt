@@ -1,4 +1,4 @@
-package com.bitchat.android.core.ui.component.sheet
+package tech.arkraft.qwerty.core.ui.component.sheet
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.statusBarsPadding

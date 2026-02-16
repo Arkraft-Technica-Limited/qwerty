@@ -1,4 +1,4 @@
-package com.bitchat.android.model
+package tech.arkraft.qwerty.model
 
 import android.os.Parcelable
 import com.google.gson.GsonBuilder

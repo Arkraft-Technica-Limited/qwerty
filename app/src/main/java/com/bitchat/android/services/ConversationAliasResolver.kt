@@ -1,6 +1,6 @@
-package com.bitchat.android.services
+package tech.arkraft.qwerty.services
 
-import com.bitchat.android.ui.ChatState
+import tech.arkraft.qwerty.ui.ChatState
 
 object ConversationAliasResolver {
 

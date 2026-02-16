@@ -4,4 +4,4 @@
  *
  * Reference: http://noiseprotocol.org
  */
-package com.bitchat.android.noise.southernstorm.protocol;
+package tech.arkraft.qwerty.noise.southernstorm.protocol;

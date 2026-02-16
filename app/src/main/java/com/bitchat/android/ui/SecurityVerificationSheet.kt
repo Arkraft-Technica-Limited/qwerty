@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -45,9 +45,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.R
-import com.bitchat.android.core.ui.component.button.CloseButton
-import com.bitchat.android.core.ui.component.sheet.BitchatBottomSheet
+import tech.arkraft.qwerty.R
+import tech.arkraft.qwerty.core.ui.component.button.CloseButton
+import tech.arkraft.qwerty.core.ui.component.sheet.BitchatBottomSheet
 
 private data class SecurityStatusInfo(
     val text: String,

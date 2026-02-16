@@ -1,11 +1,11 @@
-package com.bitchat.android.service
+package tech.arkraft.qwerty.service
 
 import android.app.Application
 import android.os.Process
 import androidx.core.app.NotificationManagerCompat
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.net.ArtiTorManager
-import com.bitchat.android.net.TorMode
+import tech.arkraft.qwerty.mesh.BluetoothMeshService
+import tech.arkraft.qwerty.net.ArtiTorManager
+import tech.arkraft.qwerty.net.TorMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -49,9 +49,9 @@ object AppShutdownCoordinator {
         val job = scope.launch {
             // Signal UI to finish gracefully before we kill the process
             try {
-                val intent = android.content.Intent(com.bitchat.android.util.AppConstants.UI.ACTION_FORCE_FINISH)
+                val intent = android.content.Intent(tech.arkraft.qwerty.util.AppConstants.UI.ACTION_FORCE_FINISH)
                     .setPackage(app.packageName)
-                app.sendBroadcast(intent, com.bitchat.android.util.AppConstants.UI.PERMISSION_FORCE_FINISH)
+                app.sendBroadcast(intent, tech.arkraft.qwerty.util.AppConstants.UI.PERMISSION_FORCE_FINISH)
             } catch (_: Exception) { }
 
             // Stop mesh (best-effort)
@@ -64,7 +64,7 @@ object AppShutdownCoordinator {
             }
 
             // Clear AppState in-memory store
-            try { com.bitchat.android.services.AppStateStore.clear() } catch (_: Exception) { }
+            try { tech.arkraft.qwerty.services.AppStateStore.clear() } catch (_: Exception) { }
 
             // Stop foreground and clear notification
             try { stopForeground() } catch (_: Exception) { }

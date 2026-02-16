@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 // [Goose] Bridge file share events to ViewModel via dispatcher is installed in ChatScreen composition
 
 // [Goose] Installing FileShareDispatcher handler in ChatScreen to forward file sends to ViewModel
@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.ui.media.FullScreenImageViewer
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.ui.media.FullScreenImageViewer
 
 /**
  * Main ChatScreen - REFACTORED to use component-based architecture
@@ -92,7 +92,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
         currentChannel != null -> channelMessages[currentChannel] ?: emptyList()
         else -> {
             val locationChannel = selectedLocationChannel
-            if (locationChannel is com.bitchat.android.geohash.ChannelID.Location) {
+            if (locationChannel is tech.arkraft.qwerty.geohash.ChannelID.Location) {
                 val geokey = "geo:${locationChannel.channel.geohash}"
                 channelMessages[geokey] ?: emptyList()
             } else {
@@ -104,7 +104,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
     // Determine whether to show media buttons (only hide in geohash location chats)
     val showMediaButtons = when {
         currentChannel != null -> true
-        else -> selectedLocationChannel !is com.bitchat.android.geohash.ChannelID.Location
+        else -> selectedLocationChannel !is tech.arkraft.qwerty.geohash.ChannelID.Location
     }
 
     // Use WindowInsets to handle keyboard properly
@@ -146,7 +146,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     
                     // Check if we're in a geohash channel to include hash suffix
                     val selectedLocationChannel = viewModel.selectedLocationChannel.value
-                    val mentionText = if (selectedLocationChannel is com.bitchat.android.geohash.ChannelID.Location && hashSuffix.isNotEmpty()) {
+                    val mentionText = if (selectedLocationChannel is tech.arkraft.qwerty.geohash.ChannelID.Location && hashSuffix.isNotEmpty()) {
                         // In geohash chat - include the hash suffix from the full display name
                         "@$baseName$hashSuffix"
                     } else {
@@ -185,7 +185,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
             // Input area - stays at bottom
         // Bridge file share from lower-level input to ViewModel
     androidx.compose.runtime.LaunchedEffect(Unit) {
-        com.bitchat.android.ui.events.FileShareDispatcher.setHandler { peer, channel, path ->
+        tech.arkraft.qwerty.ui.events.FileShareDispatcher.setHandler { peer, channel, path ->
             viewModel.sendFileNote(peer, channel, path)
         }
     }
@@ -287,7 +287,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
                 IconButton(onClick = { forceScrollToBottom = !forceScrollToBottom }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowDownward,
-                        contentDescription = stringResource(com.bitchat.android.R.string.cd_scroll_to_bottom),
+                        contentDescription = stringResource(tech.arkraft.qwerty.R.string.cd_scroll_to_bottom),
                         tint = Color(0xFF00C851)
                     )
                 }
@@ -422,7 +422,7 @@ private fun ChatFloatingHeader(
     onLocationNotesClick: () -> Unit
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val locationManager = remember { com.bitchat.android.geohash.LocationChannelManager.getInstance(context) }
+    val locationManager = remember { tech.arkraft.qwerty.geohash.LocationChannelManager.getInstance(context) }
     
     Surface(
         modifier = Modifier
@@ -510,7 +510,7 @@ private fun ChatDialogs(
         onShowDebug = { showDebugSheet = true }
     )
     if (showDebugSheet) {
-        com.bitchat.android.ui.debug.DebugSettingsSheet(
+        tech.arkraft.qwerty.ui.debug.DebugSettingsSheet(
             isPresented = showDebugSheet,
             onDismiss = { showDebugSheet = false },
             meshService = viewModel.meshService

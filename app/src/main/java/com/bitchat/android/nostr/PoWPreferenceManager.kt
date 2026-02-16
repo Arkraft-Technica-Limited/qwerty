@@ -1,4 +1,4 @@
-package com.bitchat.android.nostr
+package tech.arkraft.qwerty.nostr
 
 import android.content.Context
 import android.content.SharedPreferences

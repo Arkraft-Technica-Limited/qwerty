@@ -1,10 +1,10 @@
-package com.bitchat.android.mesh
+package tech.arkraft.qwerty.mesh
 
 import android.bluetooth.*
 import android.content.Context
 import android.util.Log
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.protocol.BitchatPacket
+import tech.arkraft.qwerty.model.RoutedPacket
+import tech.arkraft.qwerty.protocol.BitchatPacket
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
@@ -92,7 +92,7 @@ class BluetoothConnectionManager(
         powerManager.delegate = this
         // Observe debug settings to enforce role state while active
         try {
-            val dbg = com.bitchat.android.ui.debug.DebugSettingsManager.getInstance()
+            val dbg = tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance()
             // Role enable/disable
             connectionScope.launch {
                 dbg.gattServerEnabled.collect { enabled ->
@@ -132,7 +132,7 @@ class BluetoothConnectionManager(
         if (!isActive) return
         
         try {
-            val dbg = com.bitchat.android.ui.debug.DebugSettingsManager.getInstance()
+            val dbg = tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance()
             val maxOverall = dbg.maxConnectionsOverall.value
             val maxServer = dbg.maxServerConnections.value
             val maxClient = dbg.maxClientConnections.value
@@ -197,7 +197,7 @@ class BluetoothConnectionManager(
                 powerManager.start()
                 
                 // Start server/client based on debug settings
-                val dbg = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance() } catch (_: Exception) { null }
+                val dbg = try { tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance() } catch (_: Exception) { null }
                 val startServer = dbg?.gattServerEnabled?.value != false
                 val startClient = dbg?.gattClientEnabled?.value != false
 
@@ -400,7 +400,7 @@ class BluetoothConnectionManager(
             val wasUsingDutyCycle = powerManager.shouldUseDutyCycle()
             
             // Update advertising with new power settings if server enabled
-            val serverEnabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
+            val serverEnabled = try { tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
             if (serverEnabled) {
                 serverManager.restartAdvertising()
             } else {
@@ -411,7 +411,7 @@ class BluetoothConnectionManager(
             val nowUsingDutyCycle = powerManager.shouldUseDutyCycle()
             if (wasUsingDutyCycle != nowUsingDutyCycle) {
                 Log.d(TAG, "Duty cycle behavior changed (${wasUsingDutyCycle} -> ${nowUsingDutyCycle}), restarting scan")
-                val clientEnabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
+                val clientEnabled = try { tech.arkraft.qwerty.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
                 if (clientEnabled) {
                     clientManager.restartScanning()
                 } else {

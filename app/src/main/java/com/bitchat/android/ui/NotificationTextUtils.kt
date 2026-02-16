@@ -1,7 +1,7 @@
-package com.bitchat.android.ui
+package tech.arkraft.qwerty.ui
 
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.BitchatMessageType
+import tech.arkraft.qwerty.model.BitchatMessage
+import tech.arkraft.qwerty.model.BitchatMessageType
 
 /**
  * Utilities for building human-friendly notification text/previews.

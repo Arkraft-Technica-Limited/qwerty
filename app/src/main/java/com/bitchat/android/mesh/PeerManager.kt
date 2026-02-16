@@ -1,4 +1,4 @@
-package com.bitchat.android.mesh
+package tech.arkraft.qwerty.mesh
 
 import android.util.Log
 import kotlinx.coroutines.*
@@ -70,7 +70,7 @@ class PeerManager {
     }
 
     // Centralized timeout from AppConstants
-    private val stalePeerTimeoutMs: Long = com.bitchat.android.util.AppConstants.Mesh.STALE_PEER_TIMEOUT_MS
+    private val stalePeerTimeoutMs: Long = tech.arkraft.qwerty.util.AppConstants.Mesh.STALE_PEER_TIMEOUT_MS
     
     // Peer tracking data - enhanced with verification status
     private val peers = ConcurrentHashMap<String, PeerInfo>() // peerID -> PeerInfo
@@ -421,7 +421,7 @@ class PeerManager {
     private fun startPeriodicCleanup() {
         managerScope.launch {
             while (isActive) {
-                delay(com.bitchat.android.util.AppConstants.Mesh.PEER_CLEANUP_INTERVAL_MS)
+                delay(tech.arkraft.qwerty.util.AppConstants.Mesh.PEER_CLEANUP_INTERVAL_MS)
                 cleanupStalePeers()
             }
         }

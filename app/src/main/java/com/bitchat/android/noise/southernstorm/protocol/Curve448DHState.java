@@ -20,11 +20,11 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package com.bitchat.android.noise.southernstorm.protocol;
+package tech.arkraft.qwerty.noise.southernstorm.protocol;
 
 import java.util.Arrays;
 
-import com.bitchat.android.noise.southernstorm.crypto.Curve448;
+import tech.arkraft.qwerty.noise.southernstorm.crypto.Curve448;
 
 /**
  * Implementation of the Curve448 algorithm for the Noise protocol.

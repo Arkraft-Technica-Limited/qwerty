@@ -1,4 +1,4 @@
-package com.bitchat.android.util
+package tech.arkraft.qwerty.util
 
 /**
  * Extension function to convert a ByteArray to a hexadecimal string.

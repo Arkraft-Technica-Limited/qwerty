@@ -1,4 +1,4 @@
-package com.bitchat.android.services.meshgraph
+package tech.arkraft.qwerty.services.meshgraph
 
 import org.junit.Assert.*
 import org.junit.Test

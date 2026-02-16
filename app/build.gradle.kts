@@ -6,15 +6,15 @@ plugins {
 }
 
 android {
-    namespace = "com.bitchat.android"
+    namespace = "tech.arkraft.qwerty"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.bitchat.droid"
+        applicationId = "tech.arkraft.qwerty"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 32
-        versionName = "1.7.1"
+        versionCode = 1001
+        versionName = "1.0.0-QC"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

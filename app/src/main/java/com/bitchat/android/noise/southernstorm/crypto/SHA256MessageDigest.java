@@ -20,13 +20,13 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package com.bitchat.android.noise.southernstorm.crypto;
+package tech.arkraft.qwerty.noise.southernstorm.crypto;
 
 import java.security.DigestException;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
-import com.bitchat.android.noise.southernstorm.protocol.Destroyable;
+import tech.arkraft.qwerty.noise.southernstorm.protocol.Destroyable;
 
 /**
  * Fallback implementation of SHA256.

@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.events
+package tech.arkraft.qwerty.ui.events
 
 /**
  * Lightweight dispatcher so lower-level UI (MessageInput) can trigger

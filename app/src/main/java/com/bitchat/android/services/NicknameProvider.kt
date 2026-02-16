@@ -1,7 +1,7 @@
-package com.bitchat.android.services
+package tech.arkraft.qwerty.services
 
 import android.content.Context
-import com.bitchat.android.ui.DataManager
+import tech.arkraft.qwerty.ui.DataManager
 
 /**
  * Provides current user's nickname for announcements and leave messages.
